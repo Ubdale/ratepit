@@ -2,12 +2,12 @@
 
 **Free, private finance calculators that never touch a server.**
 
-The finance-focused sibling to [Toolpit](https://toolpit.app). Every calculation runs
-client-side in the browser — no account, no upload, no figure of the user's stored anywhere.
+Every calculation runs client-side in the browser — no account, no upload, no figure of the
+user's stored anywhere.
 
 ## Stack
 
-Next.js 14 (App Router) · TypeScript · Tailwind CSS · Recharts · Motion · dark by default.
+Next.js 14 (App Router) · TypeScript · Tailwind CSS · MUI · Recharts · Motion · dark by default.
 
 ### Design system
 
@@ -15,8 +15,19 @@ Next.js 14 (App Router) · TypeScript · Tailwind CSS · Recharts · Motion · d
 slate), **citron** as the single brand accent used about once per screen, and **coral**
 reserved for live/estimated-data notices. Three type roles — Instrument Serif for display,
 Inter for reading, JetBrains Mono for every figure. Tokens live in `tailwind.config.ts`;
-component primitives (`.panel`, `.btn`, `.chip`, `.field-shell`, `.eyebrow`, `.figure`) in
+component primitives (`.panel`, `.btn`, `.chip`, `.eyebrow`, `.figure`) in
 `src/app/globals.css`.
+
+**MUI supplies the controls** (slider, select, switch, toggle group, accordion, tooltip),
+themed in `src/theme.ts` to the Ratepit palette rather than stock Material. Tailwind still
+owns layout. Two things to know before changing that setup:
+
+- The emotion cache runs **without** `enableCssLayer`. Tailwind v3 emits its preflight
+  unlayered, and an unlayered rule beats any layered one regardless of specificity — with
+  the layer on, preflight's `box-sizing: border-box` silently overrode MUI's box metrics
+  and size overrides in the theme were dropped.
+- A plain function exported from a `"use client"` module cannot be *called* by a server
+  component. Shared data like `toolAccent` lives in `src/lib/tools.ts` for that reason.
 
 Rules the codebase holds itself to:
 
@@ -56,12 +67,12 @@ npm run typecheck
 |---|---|
 | `/loan-emi-calculator` | Live |
 | `/mortgage-calculator` | Live |
-| `/credit-card-payoff-calculator` | Planned |
-| `/car-loan-calculator` | Planned |
-| `/loan-eligibility-calculator` | Planned |
-| `/insurance-calculator` | Planned |
+| `/credit-card-payoff-calculator` | Live |
+| `/car-loan-calculator` | Live |
+| `/loan-eligibility-calculator` | Live |
+| `/insurance-calculator` | Live |
 
-Each live calculator also has nine prerendered region routes — `/{tool}/{usa,uk,india,pakistan,uae,canada,australia,singapore,eurozone}`
+The EMI and mortgage calculators also have nine prerendered region routes — `/{tool}/{usa,uk,india,pakistan,uae,canada,australia,singapore,eurozone}`
 — with its own title, description, canonical, FAQ set and field defaults, so each can
 rank independently in its own market.
 
@@ -84,7 +95,9 @@ src/
     pages/                    server-rendered page bodies (copy, schema, ad slots)
     charts.tsx  fields.tsx  results.tsx  content.tsx  AdSlot.tsx
   lib/
-    finance.ts    amortisation + mortgage math (pure, tested by hand against known values)
+    finance.ts    amortisation + mortgage math (pure, checked by hand against known values)
+    loans.ts      card payoff, car finance and borrowing-eligibility math
+    insurance.ts  premium ESTIMATOR - models rate-table shapes, returns a range, never a quote
     regions.ts    per-region field config — terms, rates, taxes, fees, caveats
     currencies.ts nine currencies + locale detection
     seo.ts        titles, metadata, FAQPage / SoftwareApplication / Breadcrumb schema

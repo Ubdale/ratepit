@@ -1,6 +1,14 @@
 "use client";
 
 import { useId } from "react";
+import Slider from "@mui/material/Slider";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputAdornment from "@mui/material/InputAdornment";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import Switch from "@mui/material/Switch";
+import Tooltip from "@mui/material/Tooltip";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { formatNumber, parseAmount } from "@/lib/format";
 import { useCurrency } from "./CurrencyProvider";
 
@@ -19,12 +27,14 @@ interface SliderFieldProps {
   hint?: string;
   /** Rendered to the right of the label - used for the live-rate suggestion. */
   action?: React.ReactNode;
+  /** Short explanation shown behind an info icon beside the label. */
+  help?: string;
 }
 
-/** Number input paired with a range slider, the pattern used by every field. */
+/** Number input paired with a slider - the pattern every field uses. */
 export function SliderField({
   label, value, onChange, min, max, step = 1,
-  prefix, suffix, decimals = 0, hint, action,
+  prefix, suffix, decimals = 0, hint, action, help,
 }: SliderFieldProps) {
   const id = useId();
 
@@ -34,47 +44,44 @@ export function SliderField({
   };
 
   return (
-    <div className="space-y-3">
-      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-        <label htmlFor={id} className="text-sm font-medium text-ink">
+    <div className="space-y-2">
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
+        <label htmlFor={id} className="flex items-center gap-1.5 text-sm font-medium text-ink">
           {label}
+          {help ? (
+            <Tooltip title={help} arrow enterTouchDelay={0} leaveTouchDelay={4000}>
+              <InfoOutlinedIcon
+                sx={{ fontSize: 15, color: "text.disabled", cursor: "help" }}
+                aria-label={`About ${label}`}
+              />
+            </Tooltip>
+          ) : null}
         </label>
         {action}
       </div>
 
-      <div className="field-shell">
-        {prefix ? (
-          <span className="shrink-0 font-mono text-sm text-ink-faint" aria-hidden>
-            {prefix}
-          </span>
-        ) : null}
-        <input
-          id={id}
-          type="text"
-          inputMode="decimal"
-          value={formatNumber(value, decimals)}
-          onChange={(e) => commit(e.target.value)}
-          className="w-full min-w-0 flex-1 bg-transparent text-right font-mono text-base
-                     text-ink outline-none"
-        />
-        {suffix ? (
-          <span className="shrink-0 font-mono text-sm text-ink-faint" aria-hidden>
-            {suffix}
-          </span>
-        ) : null}
-      </div>
+      <OutlinedInput
+        id={id}
+        fullWidth
+        value={formatNumber(value, decimals)}
+        onChange={(e) => commit(e.target.value)}
+        inputProps={{ inputMode: "decimal", style: { textAlign: "right" } }}
+        startAdornment={
+          prefix ? <InputAdornment position="start">{prefix}</InputAdornment> : undefined
+        }
+        endAdornment={suffix ? <InputAdornment position="end">{suffix}</InputAdornment> : undefined}
+      />
 
-      <input
-        type="range"
+      <Slider
         aria-label={`${label} slider`}
+        value={Math.min(Math.max(value, min), max)}
         min={min}
         max={max}
         step={step}
-        value={Math.min(Math.max(value, min), max)}
-        onChange={(e) => onChange(Number(e.target.value))}
+        onChange={(_, v) => onChange(Array.isArray(v) ? v[0] : v)}
       />
 
-      {hint ? <p className="text-xs text-ink-faint">{hint}</p> : null}
+      {hint ? <p className="-mt-1 text-xs text-ink-faint">{hint}</p> : null}
     </div>
   );
 }
@@ -103,21 +110,23 @@ export function TermSelector({
   unit?: string;
 }) {
   return (
-    <div className="space-y-3">
+    <div className="space-y-2">
       <span className="text-sm font-medium text-ink">{label}</span>
-      <div className="flex flex-wrap gap-2">
+      <ToggleButtonGroup
+        exclusive
+        value={options.includes(value) ? value : null}
+        onChange={(_, v) => {
+          // Null arrives when the active button is clicked again - keep the value.
+          if (v !== null) onChange(v as number);
+        }}
+        aria-label={label}
+      >
         {options.map((option) => (
-          <button
-            key={option}
-            type="button"
-            onClick={() => onChange(option)}
-            aria-pressed={value === option}
-            className={`chip !px-4 font-mono ${value === option ? "chip-active" : ""}`}
-          >
+          <ToggleButton key={option} value={option}>
             {option} {unit}
-          </button>
+          </ToggleButton>
         ))}
-      </div>
+      </ToggleButtonGroup>
     </div>
   );
 }
@@ -133,27 +142,12 @@ export function ToggleField({
   const id = useId();
   return (
     <div className="flex items-center gap-3 rounded-xl border border-line bg-canvas-raised/60 p-4">
-      <button
-        type="button"
+      <Switch
         id={id}
-        role="switch"
-        aria-checked={checked}
-        onClick={() => onChange(!checked)}
-        className="-my-2.5 -ml-2.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-pill"
-      >
-        <span
-          aria-hidden
-          className={`relative block h-6 w-11 rounded-pill border transition ${
-            checked ? "border-citron-500 bg-citron-400/30" : "border-line-strong bg-surface"
-          }`}
-        >
-          <span
-            className={`absolute top-1/2 h-4 w-4 -translate-y-1/2 rounded-pill transition-all ${
-              checked ? "left-6 bg-citron-400" : "left-1 bg-ink-ghost"
-            }`}
-          />
-        </span>
-      </button>
+        checked={checked}
+        onChange={(e) => onChange(e.target.checked)}
+        slotProps={{ input: { "aria-label": label } }}
+      />
       <div className="min-w-0">
         <label htmlFor={id} className="cursor-pointer text-sm font-medium text-ink">
           {label}

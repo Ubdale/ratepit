@@ -1,32 +1,17 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import Button from "@mui/material/Button";
+import Chip from "@mui/material/Chip";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import { useCurrency } from "./CurrencyProvider";
 import { CURRENCIES, isCurrencyCode, type CurrencyCode } from "@/lib/currencies";
 import { REGIONS, REGION_SLUGS, type Region, type RegionSlug } from "@/lib/regions";
 import { formatTimestamp } from "@/lib/format";
-
-function Select({
-  label, value, onChange, children,
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <label className="flex w-full min-w-0 flex-col gap-2 sm:w-auto sm:flex-none">
-      <span className="eyebrow">{label}</span>
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="field-input h-11 min-w-0 py-0 pr-8 text-sm sm:min-w-[12rem]"
-      >
-        {children}
-      </select>
-    </label>
-  );
-}
 
 /**
  * The one filter bar reused by every calculator: currency, region, and an
@@ -36,9 +21,12 @@ export function FilterBar({
   region,
   /** Base route the region picker navigates within, e.g. "/mortgage-calculator". */
   basePath,
+  /** Tools without per-region routes hide the region picker entirely. */
+  showRegion = true,
 }: {
   region: Region;
   basePath: string;
+  showRegion?: boolean;
 }) {
   const router = useRouter();
   const {
@@ -51,84 +39,112 @@ export function FilterBar({
 
   return (
     <div className="panel p-5 sm:p-6">
-      <div className="flex flex-wrap items-end gap-4">
-        <Select
-          label="Currency"
-          value={code}
-          onChange={(v) => {
-            if (isCurrencyCode(v)) setCurrency(v);
-          }}
-        >
-          {CURRENCIES.map((c) => (
-            <option key={c.code} value={c.code}>
-              {c.code} &mdash; {c.label}
-            </option>
-          ))}
-        </Select>
+      <div className="flex flex-wrap items-center gap-4">
+        <FormControl size="small" className="w-full sm:w-52">
+          <InputLabel id="rp-currency">Currency</InputLabel>
+          <Select
+            labelId="rp-currency"
+            label="Currency"
+            value={code}
+            onChange={(e) => {
+              if (isCurrencyCode(e.target.value)) setCurrency(e.target.value);
+            }}
+          >
+            {CURRENCIES.map((c) => (
+              <MenuItem key={c.code} value={c.code}>
+                <span className="font-mono">{c.symbol}</span>
+                <span className="ml-2">{c.code}</span>
+                <span className="ml-2 text-ink-faint">{c.label}</span>
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
-        <Select
-          label="Region"
-          value={region.slug}
-          onChange={(v) => {
-            // Region pages are real routes so they can rank independently.
-            const slug = v as RegionSlug;
-            router.push(slug === "global" ? basePath : `${basePath}/${slug}`);
-          }}
-        >
-          {REGION_SLUGS.map((slug) => (
-            <option key={slug} value={slug}>
-              {REGIONS[slug].short}
-            </option>
-          ))}
-        </Select>
+        {showRegion ? (
+          <FormControl size="small" className="w-full sm:w-52">
+            <InputLabel id="rp-region">Region</InputLabel>
+            <Select
+              labelId="rp-region"
+              label="Region"
+              value={region.slug}
+              onChange={(e) => {
+                // Region pages are real routes so they can rank independently.
+                const slug = e.target.value as RegionSlug;
+                router.push(slug === "global" ? basePath : `${basePath}/${slug}`);
+              }}
+            >
+              {REGION_SLUGS.map((slug) => (
+                <MenuItem key={slug} value={slug}>
+                  {REGIONS[slug].short}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        ) : null}
 
-        <Select
-          label="Also show in"
-          value={compareCode ?? ""}
-          onChange={(v) => setCompareCode(isCurrencyCode(v) ? (v as CurrencyCode) : null)}
-        >
-          <option value="">Off</option>
-          {CURRENCIES.filter((c) => c.code !== code).map((c) => (
-            <option key={c.code} value={c.code}>
-              {c.code} &mdash; {c.label}
-            </option>
-          ))}
-        </Select>
+        <FormControl size="small" className="w-full sm:w-52">
+          <InputLabel id="rp-compare">Also show in</InputLabel>
+          <Select
+            labelId="rp-compare"
+            label="Also show in"
+            value={compareCode ?? ""}
+            onChange={(e) => {
+              const v = e.target.value;
+              setCompareCode(isCurrencyCode(v) ? (v as CurrencyCode) : null);
+            }}
+          >
+            <MenuItem value="">Off</MenuItem>
+            {CURRENCIES.filter((c) => c.code !== code).map((c) => (
+              <MenuItem key={c.code} value={c.code}>
+                <span className="font-mono">{c.symbol}</span>
+                <span className="ml-2">{c.code}</span>
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
-        <div className="ml-auto flex items-center gap-3 text-xs">
-          <span
-            aria-hidden
-            className={`h-2 w-2 shrink-0 rounded-pill ${
-              ratesLoading ? "bg-ink-ghost" : degraded ? "bg-coral-400" : "bg-citron-400"
-            }`}
+        <div className="flex flex-1 flex-wrap items-center justify-end gap-3">
+          <Chip
+            size="small"
+            variant="outlined"
+            color={degraded ? "warning" : "default"}
+            label={
+              ratesLoading
+                ? "Loading rates"
+                : degraded
+                  ? "Estimated rates"
+                  : stamp
+                    ? `Rates ${stamp}`
+                    : "Rates ready"
+            }
+            icon={
+              <span
+                aria-hidden
+                className={`!ml-2.5 h-1.5 w-1.5 rounded-pill ${
+                  ratesLoading ? "bg-ink-ghost" : degraded ? "bg-coral-400" : "bg-citron-400"
+                }`}
+              />
+            }
           />
-          <div className="leading-relaxed">
-            {ratesLoading ? (
-              <span className="text-ink-faint">Loading exchange rates&hellip;</span>
-            ) : degraded ? (
-              <span className="text-coral-300">Estimated rates &mdash; live data unavailable</span>
-            ) : stamp ? (
-              <span className="text-ink-faint">
-                Rates updated <span className="figure text-ink-muted">{stamp}</span>
-              </span>
-            ) : null}
-            {rates?.sources?.length ? (
-              <div className="text-ink-ghost">via {rates.sources.join(", ")}</div>
-            ) : null}
-          </div>
-          <button
-            type="button"
+          <Button
+            size="small"
+            variant="outlined"
             onClick={refreshRates}
-            className="chip !px-4 !text-xs"
+            startIcon={<RefreshIcon sx={{ fontSize: 16 }} />}
           >
             Refresh
-          </button>
+          </Button>
         </div>
       </div>
 
       <p className="mt-5 border-t border-line-soft pt-4 text-xs text-ink-ghost">
-        Region presets change the default term, rate and fee fields to match local lending
-        conventions. Every value stays editable.
+        {degraded
+          ? "Live exchange rates are unavailable, so conversions use a stored estimate. "
+          : ""}
+        {showRegion
+          ? "Region presets change the default term, rate and fee fields to match local lending conventions. Every value stays editable."
+          : "Every value stays editable - the defaults are a starting point, not a verdict."}
+        {rates?.sources?.length ? ` Rates via ${rates.sources.join(", ")}.` : ""}
       </p>
     </div>
   );

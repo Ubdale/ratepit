@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Instrument_Serif, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { CurrencyProvider } from "@/components/CurrencyProvider";
+import { Providers } from "@/components/Providers";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/seo";
@@ -56,7 +56,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           AD SLOT: paste the AdSense loader <script> here once the account is
           approved, then swap the placeholder boxes in AdSlot.tsx for <ins> tags.
         */}
-        <CurrencyProvider>
+        <Providers>
           <a
             href="#main"
             className="sr-only focus:not-sr-only focus:absolute focus:left-6 focus:top-6 focus:z-50
@@ -70,7 +70,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {children}
           </main>
           <Footer />
-        </CurrencyProvider>
+        </Providers>
       </body>
     </html>
   );

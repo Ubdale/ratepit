@@ -3,10 +3,11 @@ import type { Metadata } from "next";
 import { AdSlot } from "@/components/AdSlot";
 import { JsonLd } from "@/components/content";
 import { Reveal, Stagger, StaggerItem, Press } from "@/components/motion";
-import { TOOLS } from "@/lib/tools";
+import { ToolIcon } from "@/components/ToolIcon";
+import { TOOLS, toolAccent } from "@/lib/tools";
 import { CURRENCIES } from "@/lib/currencies";
 import { REGIONS, SUB_ROUTE_REGIONS } from "@/lib/regions";
-import { SIBLING_URL, SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/seo";
+import { SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: { absolute: `${SITE_NAME} - ${SITE_TAGLINE}` },
@@ -148,47 +149,53 @@ export default function HomePage() {
               </h2>
             </div>
             <p className="max-w-sm text-sm text-ink-faint">
-              Two are live today. The rest are in build, in the order people actually search for
-              them.
+              All six are live, all free, and all of them run entirely on your own device.
             </p>
           </Reveal>
 
           <Stagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {TOOLS.map((tool, i) => (
               <StaggerItem key={tool.path}>
-                {tool.live ? (
-                  <Press className="h-full">
-                    <Link
-                      href={tool.path}
-                      className="panel group flex h-full flex-col p-6 transition
-                                 hover:border-citron-500/40 hover:bg-surface-hi"
-                    >
+                <Press className="h-full">
+                  <Link
+                    href={tool.path}
+                    className="panel group relative flex h-full flex-col overflow-hidden p-6
+                               transition hover:bg-surface-hi"
+                    style={{ ["--accent" as string]: toolAccent(tool.path) }}
+                  >
+                    {/* Accent wash that lifts on hover - the only per-card colour. */}
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full
+                                 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100"
+                      style={{ background: toolAccent(tool.path) }}
+                    />
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute inset-x-0 top-0 h-px opacity-40"
+                      style={{
+                        background: `linear-gradient(90deg, transparent, ${toolAccent(tool.path)}, transparent)`,
+                      }}
+                    />
+
+                    <div className="relative flex items-start justify-between gap-3">
+                      <ToolIcon path={tool.path} />
                       <span className="figure text-xs text-ink-ghost">
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <h3 className="mt-4 text-lg font-medium text-ink">{tool.name}</h3>
-                      <p className="mt-2 flex-1 text-sm text-ink-muted">{tool.blurb}</p>
-                      <span className="mt-6 inline-flex items-center gap-2 text-sm text-citron-400">
-                        Open
-                        <span
-                          aria-hidden
-                          className="transition-transform group-hover:translate-x-1"
-                        >
-                          &rarr;
-                        </span>
+                    </div>
+
+                    <h3 className="relative mt-5 text-lg font-medium text-ink">{tool.name}</h3>
+                    <p className="relative mt-2 flex-1 text-sm text-ink-muted">{tool.blurb}</p>
+
+                    <span className="relative mt-6 inline-flex items-center gap-2 text-sm text-citron-400">
+                      Open
+                      <span aria-hidden className="transition-transform group-hover:translate-x-1">
+                        &rarr;
                       </span>
-                    </Link>
-                  </Press>
-                ) : (
-                  <div className="panel-flush flex h-full flex-col p-6">
-                    <span className="figure text-xs text-ink-ghost">
-                      {String(i + 1).padStart(2, "0")}
                     </span>
-                    <h3 className="mt-4 text-lg font-medium text-ink-muted">{tool.name}</h3>
-                    <p className="mt-2 flex-1 text-sm text-ink-faint">{tool.blurb}</p>
-                    <span className="eyebrow mt-6">In build</span>
-                  </div>
-                )}
+                  </Link>
+                </Press>
               </StaggerItem>
             ))}
           </Stagger>
@@ -255,24 +262,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ------------------------------------------------------------ Family */}
-        <Reveal className="mb-20 mt-4 rounded-card border border-line bg-canvas-raised p-8 sm:p-12">
-          <div className="flex flex-wrap items-center justify-between gap-6">
-            <div className="max-w-lg">
-              <p className="eyebrow">The family</p>
-              <p className="mt-4 font-display text-xl font-normal text-ink sm:text-3xl">
-                Ratepit is the money half of Toolpit.
-              </p>
-              <p className="mt-3 text-base text-ink-muted">
-                Same principle, different problem: useful tools, no signup, nothing sent anywhere.
-              </p>
-            </div>
-            <a href={SIBLING_URL} rel="noopener" className="btn-ghost">
-              Visit Toolpit
-              <span aria-hidden>&rarr;</span>
-            </a>
-          </div>
-        </Reveal>
       </div>
     </>
   );

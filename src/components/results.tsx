@@ -10,15 +10,21 @@ import type { LoanSchedule } from "@/lib/finance";
  * conversion underneath when the user has pinned a second currency.
  */
 export function Headline({
-  label, value, sublabel, decimals = 0,
+  label, value, sublabel, decimals = 0, display,
 }: {
   label: string;
   value: number;
   sublabel?: string;
   decimals?: number;
+  /**
+   * Overrides the formatted currency for headlines that are not money -
+   * a payoff duration, for instance. Suppresses the conversion line.
+   */
+  display?: string;
 }) {
   const { code, compareCode, convertFormatted, rates } = useCurrency();
-  const converted = compareCode ? convertFormatted(value, compareCode, decimals) : null;
+  const converted =
+    display || !compareCode ? null : convertFormatted(value, compareCode, decimals);
 
   return (
     <div className="relative overflow-hidden rounded-card border border-citron-500/25 bg-citron-400/[0.06] p-6 sm:p-8">
@@ -28,7 +34,7 @@ export function Headline({
       />
       <p className="eyebrow !text-citron-600">{label}</p>
       <p className="figure mt-3 text-4xl font-medium leading-none text-ink sm:text-6xl">
-        {formatCurrency(value, code, { decimals })}
+        {display ?? formatCurrency(value, code, { decimals })}
       </p>
       {converted ? (
         <p className="figure mt-3 text-base text-ink-muted">

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Logo, Wordmark } from "./Logo";
 import { LIVE_TOOLS } from "@/lib/tools";
+import { ToolIcon } from "./ToolIcon";
 import { SITE_NAME } from "@/lib/seo";
 
 /**
@@ -47,13 +48,13 @@ export function Header() {
           <Wordmark />
         </Link>
 
-        <nav className="ml-2 hidden items-center gap-1 md:flex" aria-label="Calculators">
+        <nav className="ml-2 hidden items-center gap-0.5 lg:flex" aria-label="Calculators">
           {LIVE_TOOLS.map((tool) => (
             <Link
               key={tool.path}
               href={tool.path}
               aria-current={isActive(tool.path) ? "page" : undefined}
-              className={`rounded-pill px-4 py-2 text-sm transition ${
+              className={`whitespace-nowrap rounded-pill px-3 py-2 text-sm transition ${
                 isActive(tool.path)
                   ? "bg-surface-hi text-ink"
                   : "text-ink-muted hover:bg-surface hover:text-ink"
@@ -65,13 +66,10 @@ export function Header() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2">
-          <span className="hidden items-center gap-2 pr-2 font-mono text-xs text-ink-faint lg:flex">
+          <span className="hidden items-center gap-2 pr-2 font-mono text-xs text-ink-faint xl:flex">
             <span className="h-1.5 w-1.5 rounded-pill bg-citron-400" aria-hidden />
             runs in your browser
           </span>
-          <Link href="/loan-emi-calculator" className="btn-primary hidden !h-9 !px-5 sm:inline-flex">
-            Calculate
-          </Link>
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
@@ -79,7 +77,7 @@ export function Header() {
             aria-controls="mobile-nav"
             aria-label={open ? "Close menu" : "Open menu"}
             className="flex h-11 w-11 items-center justify-center rounded-pill border border-line
-                       text-ink transition hover:bg-surface md:hidden"
+                       text-ink transition hover:bg-surface lg:hidden"
           >
             <span aria-hidden className="relative block h-3 w-4">
               <span
@@ -101,19 +99,18 @@ export function Header() {
         <nav
           id="mobile-nav"
           aria-label="Calculators"
-          className="panel mx-auto mt-2 max-w-6xl overflow-hidden p-2 md:hidden"
+          className="panel mx-auto mt-2 max-w-6xl overflow-hidden p-2 lg:hidden"
         >
           {LIVE_TOOLS.map((tool) => (
             <Link
               key={tool.path}
               href={tool.path}
-              className="flex h-12 items-center justify-between rounded-xl px-4 text-base
+              className="flex min-h-[56px] items-center gap-3 rounded-xl px-3 text-base
                          text-ink-muted transition hover:bg-surface-hi hover:text-ink"
             >
-              {tool.name}
-              <span aria-hidden className="text-citron-400">
-                &rarr;
-              </span>
+              <ToolIcon path={tool.path} size={16} />
+              <span className="flex-1">{tool.name}</span>
+              <span aria-hidden className="text-citron-400">&rarr;</span>
             </Link>
           ))}
         </nav>

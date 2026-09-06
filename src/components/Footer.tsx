@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Logo, Wordmark } from "./Logo";
 import { TOOLS } from "@/lib/tools";
-import { SIBLING_URL, SITE_NAME, SITE_TAGLINE } from "@/lib/seo";
+import { SITE_NAME, SITE_TAGLINE } from "@/lib/seo";
 
 export function Footer() {
   return (
@@ -57,17 +57,9 @@ export function Footer() {
           </div>
 
           <div>
-            <h2 className="eyebrow">Family</h2>
+            <h2 className="eyebrow">Currencies</h2>
             <p className="mt-5 text-sm text-ink-faint">
-              Part of the{" "}
-              <a
-                href={SIBLING_URL}
-                rel="noopener"
-                className="text-citron-400 underline-offset-4 hover:underline"
-              >
-                Toolpit
-              </a>{" "}
-              family. Same idea, everything runs in your browser.
+              USD, EUR, GBP, INR, PKR, AED, CAD, AUD and SGD, with live conversion between them.
             </p>
           </div>
         </div>

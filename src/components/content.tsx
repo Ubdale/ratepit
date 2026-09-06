@@ -1,3 +1,9 @@
+"use client";
+
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import type { FaqItem } from "@/lib/seo";
 
 /** Injects structured data. Content is ours, so the JSON is safe to serialise. */
@@ -35,27 +41,30 @@ export function FaqSection({ items }: { items: FaqItem[] }) {
   return (
     <section className="panel p-6 sm:p-8">
       <p className="eyebrow">Questions</p>
-      <h2 className="mt-3 font-display text-3xl font-normal tracking-tight">
-        Frequently asked
-      </h2>
-      <dl className="mt-6">
+      <h2 className="mt-3 font-display text-3xl font-normal tracking-tight">Frequently asked</h2>
+      <div className="mt-6">
         {items.map((item, i) => (
-          <div
-            key={item.q}
-            className={`py-5 ${i === 0 ? "pt-0" : "border-t border-line-soft"}`}
-          >
-            <dt className="flex gap-4 text-base font-medium text-ink">
-              <span className="figure shrink-0 text-sm text-citron-600">
-                {String(i + 1).padStart(2, "0")}
+          <Accordion key={item.q}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon sx={{ color: "text.disabled" }} />}
+              aria-controls={`faq-${i}-content`}
+              id={`faq-${i}-header`}
+            >
+              <span className="flex gap-4 pr-4 text-base font-medium text-ink">
+                <span className="figure shrink-0 text-sm text-citron-600">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                {item.q}
               </span>
-              {item.q}
-            </dt>
-            <dd className="mt-2 max-w-prose pl-9 text-sm leading-relaxed text-ink-muted">
-              {item.a}
-            </dd>
-          </div>
+            </AccordionSummary>
+            <AccordionDetails>
+              <p className="max-w-prose pb-4 pl-9 text-sm leading-relaxed text-ink-muted">
+                {item.a}
+              </p>
+            </AccordionDetails>
+          </Accordion>
         ))}
-      </dl>
+      </div>
     </section>
   );
 }

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SIBLING_URL, SITE_NAME, SITE_TAGLINE } from "@/lib/seo";
+import { SITE_NAME, SITE_TAGLINE } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "How Ratepit works",
@@ -63,15 +63,6 @@ export default function AboutPage() {
           &ldquo;how this is calculated&rdquo; section. There is no income tax calculator, because
           doing that honestly means encoding one country&apos;s tax code at a time and keeping it
           current - a bad tax estimate is worse than none.
-        </p>
-
-        <h3>Part of the Toolpit family</h3>
-        <p>
-          Ratepit is the finance-focused sibling of{" "}
-          <a href={SIBLING_URL} rel="noopener" className="text-citron-400 underline-offset-4 hover:underline">
-            Toolpit
-          </a>
-          , built on the same principle: useful tools, no signup, nothing sent anywhere.
         </p>
 
         <p>

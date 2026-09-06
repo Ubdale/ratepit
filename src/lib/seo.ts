@@ -33,7 +33,6 @@ function resolveSiteUrl(): string {
 }
 
 export const SITE_URL = resolveSiteUrl();
-export const SIBLING_URL = "https://toolpit.app";
 
 /** Region-aware title: "Ratepit - EMI Calculator for India". */
 export function regionalTitle(toolName: string, region: Region): string {

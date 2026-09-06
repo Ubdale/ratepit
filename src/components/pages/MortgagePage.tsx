@@ -109,22 +109,34 @@ export function MortgagePage({ region }: { region: Region }) {
       {isRegional ? <RegionCurrencySync currency={region.currency} /> : null}
 
       <div className="mx-auto max-w-6xl px-6 pb-12 pt-10">
-        <nav aria-label="Breadcrumb" className="mb-8 font-mono text-xs text-ink-ghost">
-          <Link href="/" className="inline-flex min-h-[44px] items-center transition hover:text-citron-300">
-            Ratepit
-          </Link>
-          <span className="mx-2 text-line-strong">/</span>
-          {isRegional ? (
-            <>
-              <Link href={MORTGAGE_PATH} className="inline-flex min-h-[44px] items-center transition hover:text-citron-300">
-                Mortgage Calculator
+        <nav aria-label="Breadcrumb" className="mb-8">
+          <ol className="flex flex-wrap items-center gap-x-2 font-mono text-xs text-ink-ghost">
+            <li>
+              <Link
+                href="/"
+                className="flex min-h-[44px] items-center transition hover:text-citron-300"
+              >
+                Ratepit
               </Link>
-              <span className="mx-2 text-line-strong">/</span>
-              <span className="text-ink-muted">{region.short}</span>
-            </>
-          ) : (
-            <span className="text-ink-muted">Mortgage Calculator</span>
-          )}
+            </li>
+            <li aria-hidden className="text-line-strong">/</li>
+            {isRegional ? (
+              <>
+                <li>
+                  <Link
+                    href={MORTGAGE_PATH}
+                    className="flex min-h-[44px] items-center transition hover:text-citron-300"
+                  >
+                    Mortgage Calculator
+                  </Link>
+                </li>
+                <li aria-hidden className="text-line-strong">/</li>
+                <li className="flex min-h-[44px] items-center text-ink-muted">{region.short}</li>
+              </>
+            ) : (
+              <li className="flex min-h-[44px] items-center text-ink-muted">Mortgage Calculator</li>
+            )}
+          </ol>
         </nav>
 
         <header className="mb-10 max-w-3xl">
