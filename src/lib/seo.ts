@@ -3,7 +3,36 @@ import type { Region } from "./regions";
 
 export const SITE_NAME = "Ratepit";
 export const SITE_TAGLINE = "Free, private finance calculators that never touch a server";
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://ratepit.app";
+const DEFAULT_SITE_URL = "https://ratepit.app";
+
+/**
+ * Resolves the canonical origin. Hosts commonly expose an unset variable as an
+ * empty string, which `??` would happily pass through to `new URL()` - so
+ * validate rather than just null-check, and drop any trailing slash so
+ * `${SITE_URL}${path}` never doubles up.
+ */
+function resolveSiteUrl(): string {
+  const candidates = [
+    process.env.NEXT_PUBLIC_SITE_URL,
+    // Vercel supplies the deployment host without a scheme.
+    process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : undefined,
+  ];
+
+  for (const candidate of candidates) {
+    const trimmed = candidate?.trim();
+    if (!trimmed) continue;
+    const withScheme = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+    try {
+      return new URL(withScheme).origin;
+    } catch {
+      // Malformed value - try the next candidate.
+    }
+  }
+
+  return DEFAULT_SITE_URL;
+}
+
+export const SITE_URL = resolveSiteUrl();
 export const SIBLING_URL = "https://toolpit.app";
 
 /** Region-aware title: "Ratepit - EMI Calculator for India". */
