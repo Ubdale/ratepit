@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useCurrency } from "@/components/CurrencyProvider";
 import { MoneyField, SliderField, TermSelector, ToggleField } from "@/components/fields";
 import { BalanceChart, CostBreakdown, SplitChart } from "@/components/charts";
-import { AmortizationTable, Headline, StatTile } from "@/components/results";
+import { AmortizationTable, Headline, Insight, StatGrid, StatTile } from "@/components/results";
 import { useMortgageRate } from "@/components/useMortgageRate";
 import { calculateMortgage } from "@/lib/finance";
 import {
@@ -104,7 +104,7 @@ export function MortgageCalculator({ region }: { region: Region }) {
   const rateAction = config.hasLiveRate ? (
     <span className="text-xs">
       {live.loading ? (
-        <span className="text-slate-600">checking rate&hellip;</span>
+        <span className="text-ink-ghost">checking rate&hellip;</span>
       ) : canSuggestRate ? (
         <button
           type="button"
@@ -112,20 +112,25 @@ export function MortgageCalculator({ region }: { region: Region }) {
             setRate(liveRate.rate);
             setRateApplied(true);
           }}
-          className="rounded text-brand-300 underline-offset-2 hover:underline"
+          className="inline-flex items-center gap-1.5 rounded-pill border border-citron-500/40 bg-citron-400/10 px-3 py-1 text-citron-300 transition hover:bg-citron-400/20"
         >
           Current avg {formatPercent(liveRate.rate, 2)} - tap to use
         </button>
       ) : (
-        <span className="text-amber-400/80">estimated rate, live data unavailable</span>
+        <span className="text-coral-300">estimated rate, live data unavailable</span>
       )}
     </span>
   ) : undefined;
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
-      <section className="card space-y-6" aria-label="Mortgage details">
-        <h2 className="text-lg font-semibold text-slate-100">Your {config.hasLiveRate ? "mortgage" : region.mortgageTerm.toLowerCase()}</h2>
+    <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
+      <section className="panel min-w-0 space-y-8 p-6 sm:p-8" aria-label="Mortgage details">
+        <div>
+          <p className="eyebrow">Inputs</p>
+          <h2 className="mt-2 font-display text-3xl font-normal tracking-tight">
+            Your {config.hasLiveRate ? "mortgage" : region.mortgageTerm.toLowerCase()}
+          </h2>
+        </div>
 
         <MoneyField
           label="Property price"
@@ -270,22 +275,22 @@ export function MortgageCalculator({ region }: { region: Region }) {
         />
 
         {config.note ? (
-          <p className="rounded-lg border border-ink-700/60 bg-ink-850/60 p-3 text-xs leading-relaxed text-slate-500">
+          <p className="rounded-xl border border-line bg-canvas-raised/60 p-4 text-xs leading-relaxed text-ink-faint">
             {config.note}
           </p>
         ) : null}
 
         {config.hasLiveRate && liveRate ? (
-          <p className="text-xs text-slate-600">
+          <p className="text-xs text-ink-ghost">
             {liveRate.stale ? (
-              <span className="text-amber-400/80">
+              <span className="text-coral-300">
                 Estimated rate - live data unavailable
                 {liveRate.message ? `. ${liveRate.message}` : ""}
               </span>
             ) : (
               <>
                 Rates updated:{" "}
-                <span className="text-slate-400">{formatTimestamp(liveRate.fetchedAt)}</span> &middot;{" "}
+                <span className="figure text-ink-muted">{formatTimestamp(liveRate.fetchedAt)}</span> &middot;{" "}
                 {liveRate.source}
                 {liveRate.observedOn ? `, week of ${liveRate.observedOn}` : ""}
               </>
@@ -294,7 +299,11 @@ export function MortgageCalculator({ region }: { region: Region }) {
         ) : null}
       </section>
 
-      <section className="space-y-4" aria-label="Results" aria-live="polite">
+      <section
+        className="min-w-0 space-y-4 lg:sticky lg:top-24"
+        aria-label="Results"
+        aria-live="polite"
+      >
         <Headline
           label="Monthly payment"
           value={monthlyTotal}
@@ -305,7 +314,7 @@ export function MortgageCalculator({ region }: { region: Region }) {
           }
         />
 
-        <div className="grid grid-cols-2 gap-3">
+        <StatGrid>
           <StatTile
             label="Loan amount"
             value={formatCurrency(result.loanAmount, code)}
@@ -322,28 +331,28 @@ export function MortgageCalculator({ region }: { region: Region }) {
             value={formatCurrency(downPayment + result.processingFee, code)}
             hint={result.processingFee > 0 ? "Down payment + processing fee" : "Down payment"}
           />
-        </div>
+        </StatGrid>
 
         {config.showPmi && pmiEnabled && result.pmiDropOffMonth ? (
-          <p className="rounded-lg border border-ink-700 bg-ink-900/60 px-4 py-3 text-sm text-slate-400">
+          <Insight tone="neutral">
             PMI adds {formatCurrency(result.monthlyPmi, code)} a month and falls away after{" "}
             {formatMonths(result.pmiDropOffMonth)}, once the balance reaches 80% of the property
             value - about {formatCurrency(result.totalPmiPaid, code)} in total.
-          </p>
+          </Insight>
         ) : null}
 
         {extra > 0 && interestSaved > 0 ? (
-          <p className="rounded-lg border border-brand-500/25 bg-brand-500/[0.06] px-4 py-3 text-sm text-brand-200">
+          <Insight>
             Paying {formatCurrency(extra, code)} extra each month saves{" "}
-            <strong className="font-semibold">{formatCurrency(interestSaved, code)}</strong> in
+            <strong className="font-medium">{formatCurrency(interestSaved, code)}</strong> in
             interest and clears the loan {formatMonths(monthsSaved)} sooner.
-          </p>
+          </Insight>
         ) : null}
 
         {convertedMonthly ? (
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-ink-faint">
             Monthly payment in {compareCode}:{" "}
-            <span className="text-slate-300">{convertedMonthly}</span>
+            <span className="figure text-ink-muted">{convertedMonthly}</span>
           </p>
         ) : null}
 

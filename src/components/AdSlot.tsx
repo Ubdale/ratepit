@@ -30,20 +30,16 @@ export function AdSlot({
   const spec = VARIANTS[variant];
 
   return (
-    <aside
-      aria-label="Advertisement"
-      data-ad-slot={id}
-      className={`my-6 ${className}`}
-    >
-      <p className="mb-1 text-center text-[0.65rem] uppercase tracking-widest text-slate-600">
+    <aside aria-label="Advertisement" data-ad-slot={id} className={`my-8 ${className}`}>
+      <p className="mb-2 text-center font-mono text-[0.65rem] uppercase tracking-[0.22em] text-ink-ghost">
         Advertisement
       </p>
       {/* AD SLOT: replace this box with the AdSense <ins> tag for `id`. */}
       <div
-        className={`flex ${spec.minHeight} items-center justify-center overflow-hidden rounded-lg
-                    border border-dashed border-ink-700 bg-ink-900/40 px-4 text-center`}
+        className={`flex ${spec.minHeight} items-center justify-center overflow-hidden
+                    rounded-card border border-dashed border-line bg-surface/30 px-6 text-center`}
       >
-        <span className="break-words font-mono text-[0.7rem] text-slate-600">
+        <span className="break-words font-mono text-xs text-ink-ghost">
           ad slot &ldquo;{id}&rdquo; &middot; {spec.hint}
         </span>
       </div>

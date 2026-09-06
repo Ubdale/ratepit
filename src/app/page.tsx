@@ -2,7 +2,9 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { AdSlot } from "@/components/AdSlot";
 import { JsonLd } from "@/components/content";
+import { Reveal, Stagger, StaggerItem, Press } from "@/components/motion";
 import { TOOLS } from "@/lib/tools";
+import { CURRENCIES } from "@/lib/currencies";
 import { REGIONS, SUB_ROUTE_REGIONS } from "@/lib/regions";
 import { SIBLING_URL, SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/seo";
 
@@ -15,14 +17,17 @@ export const metadata: Metadata = {
 
 const PROMISES = [
   {
+    n: "01",
     title: "Nothing leaves your browser",
     body: "Every calculation runs in JavaScript on your device. No account, no upload, no figure of yours stored anywhere.",
   },
   {
+    n: "02",
     title: "Built for nine currencies",
-    body: "USD, EUR, GBP, INR, PKR, AED, CAD, AUD and SGD - with local formatting, local terms and live conversion between them.",
+    body: "USD, EUR, GBP, INR, PKR, AED, CAD, AUD and SGD, with local formatting, local lending conventions and live conversion between them.",
   },
   {
+    n: "03",
     title: "Honest about its limits",
     body: "Live rates where a reliable free source exists, a clearly labelled estimate where it does not. Never an invented number.",
   },
@@ -42,134 +47,232 @@ export default function HomePage() {
         }}
       />
 
-      <div className="mx-auto max-w-6xl px-4">
-        <section className="py-14 sm:py-20">
-          <p className="text-xs font-medium uppercase tracking-[0.18em] text-brand-400">
-            Free &middot; No signup &middot; Client-side
-          </p>
-          <h1 className="mt-3 max-w-3xl text-3xl font-semibold tracking-tight text-slate-50 sm:text-5xl">
-            {SITE_TAGLINE}
-          </h1>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-400">
-            Loan, mortgage and credit calculators that work the way they should: instant, precise,
-            and completely private. Your salary, your debts, your property price - none of it is ever
-            transmitted, because none of it needs to be.
-          </p>
-          <div className="mt-7 flex flex-wrap gap-3">
-            <Link
-              href="/loan-emi-calculator"
-              className="rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-ink-950 transition hover:bg-brand-400"
-            >
-              Loan EMI Calculator
-            </Link>
-            <Link
-              href="/mortgage-calculator"
-              className="rounded-lg border border-ink-700 px-4 py-2.5 text-sm font-medium text-slate-200 transition hover:border-ink-600 hover:bg-ink-900"
-            >
-              Mortgage Calculator
-            </Link>
-          </div>
-        </section>
+      {/* ---------------------------------------------------------------- Hero */}
+      <section className="mx-auto max-w-6xl px-6 pb-16 pt-16 sm:pb-24 sm:pt-24">
+        <div className="grid items-end gap-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
+          <Reveal className="min-w-0">
+            <p className="eyebrow">Free &middot; No signup &middot; Client-side</p>
 
-        {/* AD SLOT - below the hero, above the tool grid. */}
+            <h1 className="mt-6 font-display text-4xl font-normal leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl">
+              Finance calculators that
+              <br className="hidden sm:block" />{" "}
+              <span className="text-citron-400">never touch</span> a server.
+            </h1>
+
+            <p className="mt-6 max-w-xl text-lg text-ink-muted">
+              Your salary, your debts, your property price. None of it is ever transmitted, because
+              none of it needs to be. The arithmetic runs on the device that already has the numbers.
+            </p>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href="/loan-emi-calculator" className="btn-primary">
+                Loan EMI Calculator
+              </Link>
+              <Link href="/mortgage-calculator" className="btn-ghost">
+                Mortgage Calculator
+              </Link>
+            </div>
+          </Reveal>
+
+          {/* A worked example, so the hero shows the product instead of describing it. */}
+          <Reveal delay={0.1} className="min-w-0">
+            <div className="panel p-6">
+              <div className="flex items-center justify-between">
+                <span className="eyebrow">Worked example</span>
+                <span className="font-mono text-xs text-ink-ghost">EMI &middot; 5 yr</span>
+              </div>
+
+              <dl className="mt-6 space-y-3">
+                {[
+                  ["Loan amount", "$25,000"],
+                  ["Interest rate", "10.50%"],
+                  ["Term", "60 months"],
+                ].map(([label, value]) => (
+                  <div key={label} className="flex items-baseline justify-between gap-4">
+                    <dt className="text-sm text-ink-faint">{label}</dt>
+                    <dd className="figure text-sm text-ink-muted">{value}</dd>
+                  </div>
+                ))}
+              </dl>
+
+              <div className="mt-6 rounded-xl border border-citron-500/30 bg-citron-400/[0.07] p-5">
+                <p className="eyebrow !text-citron-600">Monthly payment</p>
+                <p className="figure mt-1 text-4xl font-medium text-ink">$537</p>
+                <p className="mt-1 text-sm text-ink-faint">
+                  &asymp; &#8377;50,700 &middot; total interest $7,235
+                </p>
+              </div>
+
+              <p className="mt-4 flex items-center gap-2 font-mono text-xs text-ink-ghost">
+                <span className="h-1.5 w-1.5 rounded-pill bg-citron-400" aria-hidden />
+                computed locally, nothing sent
+              </p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Currency ticker - decorative, and hidden from the accessibility tree. */}
+      <div
+        className="relative overflow-hidden border-y border-line-soft py-4"
+        aria-hidden
+      >
+        <div className="flex w-max animate-marquee gap-10 pr-10">
+          {[...CURRENCIES, ...CURRENCIES].map((c, i) => (
+            <span
+              key={`${c.code}-${i}`}
+              className="flex items-center gap-2 font-mono text-sm text-ink-ghost"
+            >
+              <span className="text-citron-600">{c.symbol}</span>
+              {c.code}
+              <span className="text-line-strong">/</span>
+              <span className="text-ink-ghost/70">{c.label}</span>
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-6xl px-6">
         <AdSlot id="home-top" variant="leaderboard" />
 
-        <section className="py-6" aria-labelledby="tools-heading">
-          <h2 id="tools-heading" className="text-lg font-semibold text-slate-100">
-            Calculators
-          </h2>
-          <ul className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {TOOLS.map((tool) => (
-              <li key={tool.path}>
+        {/* ------------------------------------------------------------ Tools */}
+        <section className="py-16 sm:py-24" aria-labelledby="tools-heading">
+          <Reveal className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="eyebrow">The tools</p>
+              <h2
+                id="tools-heading"
+                className="mt-3 font-display text-3xl font-normal tracking-tight sm:text-4xl"
+              >
+                Six calculators, one promise
+              </h2>
+            </div>
+            <p className="max-w-sm text-sm text-ink-faint">
+              Two are live today. The rest are in build, in the order people actually search for
+              them.
+            </p>
+          </Reveal>
+
+          <Stagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {TOOLS.map((tool, i) => (
+              <StaggerItem key={tool.path}>
                 {tool.live ? (
-                  <Link
-                    href={tool.path}
-                    className="card block h-full transition hover:border-brand-500/50 hover:bg-ink-900"
-                  >
-                    <h3 className="text-sm font-semibold text-slate-100">{tool.name}</h3>
-                    <p className="mt-1.5 text-sm leading-relaxed text-slate-500">{tool.blurb}</p>
-                    <span className="mt-3 inline-block text-xs text-brand-300">Open &rarr;</span>
-                  </Link>
+                  <Press className="h-full">
+                    <Link
+                      href={tool.path}
+                      className="panel group flex h-full flex-col p-6 transition
+                                 hover:border-citron-500/40 hover:bg-surface-hi"
+                    >
+                      <span className="figure text-xs text-ink-ghost">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <h3 className="mt-4 text-lg font-medium text-ink">{tool.name}</h3>
+                      <p className="mt-2 flex-1 text-sm text-ink-muted">{tool.blurb}</p>
+                      <span className="mt-6 inline-flex items-center gap-2 text-sm text-citron-400">
+                        Open
+                        <span
+                          aria-hidden
+                          className="transition-transform group-hover:translate-x-1"
+                        >
+                          &rarr;
+                        </span>
+                      </span>
+                    </Link>
+                  </Press>
                 ) : (
-                  <div className="card h-full opacity-60">
-                    <h3 className="text-sm font-semibold text-slate-300">{tool.name}</h3>
-                    <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{tool.blurb}</p>
-                    <span className="mt-3 inline-block rounded border border-ink-700 px-1.5 py-0.5 text-[0.65rem] uppercase tracking-wide text-slate-500">
-                      Coming soon
+                  <div className="panel-flush flex h-full flex-col p-6">
+                    <span className="figure text-xs text-ink-ghost">
+                      {String(i + 1).padStart(2, "0")}
                     </span>
+                    <h3 className="mt-4 text-lg font-medium text-ink-muted">{tool.name}</h3>
+                    <p className="mt-2 flex-1 text-sm text-ink-faint">{tool.blurb}</p>
+                    <span className="eyebrow mt-6">In build</span>
                   </div>
                 )}
-              </li>
+              </StaggerItem>
             ))}
-          </ul>
+          </Stagger>
         </section>
 
-        <section className="py-10" aria-labelledby="promises-heading">
+        {/* --------------------------------------------------------- Promises */}
+        <section className="py-16 sm:py-24" aria-labelledby="promises-heading">
           <h2 id="promises-heading" className="sr-only">
             Why Ratepit
           </h2>
-          <div className="grid gap-4 sm:grid-cols-3">
-            {PROMISES.map((item) => (
-              <div key={item.title} className="card">
-                <h3 className="text-sm font-semibold text-slate-100">{item.title}</h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-slate-500">{item.body}</p>
-              </div>
+          <div className="grid gap-px overflow-hidden rounded-card border border-line bg-line sm:grid-cols-3">
+            {PROMISES.map((item, i) => (
+              <Reveal key={item.n} delay={i * 0.08} className="bg-canvas-raised p-8">
+                <span className="figure text-sm text-citron-600">{item.n}</span>
+                <h3 className="mt-6 font-display text-xl font-normal text-ink">{item.title}</h3>
+                <p className="mt-3 text-sm text-ink-muted">{item.body}</p>
+              </Reveal>
             ))}
           </div>
         </section>
 
-        {/* AD SLOT - between content blocks near the foot of the page. */}
         <AdSlot id="home-mid" variant="inline" />
 
-        <section className="pb-14" aria-labelledby="regions-heading">
-          <h2 id="regions-heading" className="text-lg font-semibold text-slate-100">
-            Localised calculators
-          </h2>
-          <p className="mt-1 max-w-2xl text-sm text-slate-500">
-            Each country page starts from local lending conventions - typical terms, rate levels,
-            taxes and fees - and everything stays editable.
-          </p>
-          <div className="mt-4 grid gap-4 sm:grid-cols-2">
-            <div className="card">
-              <h3 className="text-sm font-semibold text-slate-100">EMI calculator</h3>
-              <ul className="mt-3 flex flex-wrap gap-2 text-sm">
-                {SUB_ROUTE_REGIONS.map((slug) => (
-                  <li key={slug}>
-                    <Link
-                      href={`/loan-emi-calculator/${slug}`}
-                      className="rounded-md border border-ink-700 px-2.5 py-1 text-slate-400 transition hover:border-brand-500/50 hover:text-slate-200"
-                    >
-                      {REGIONS[slug].short}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="card">
-              <h3 className="text-sm font-semibold text-slate-100">Mortgage calculator</h3>
-              <ul className="mt-3 flex flex-wrap gap-2 text-sm">
-                {SUB_ROUTE_REGIONS.map((slug) => (
-                  <li key={slug}>
-                    <Link
-                      href={`/mortgage-calculator/${slug}`}
-                      className="rounded-md border border-ink-700 px-2.5 py-1 text-slate-400 transition hover:border-brand-500/50 hover:text-slate-200"
-                    >
-                      {REGIONS[slug].short}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
+        {/* ---------------------------------------------------------- Regions */}
+        <section className="py-16 sm:py-24" aria-labelledby="regions-heading">
+          <Reveal>
+            <p className="eyebrow">Localised</p>
+            <h2
+              id="regions-heading"
+              className="mt-3 max-w-2xl font-display text-3xl font-normal tracking-tight sm:text-4xl"
+            >
+              A US mortgage is not a UK mortgage is not an Indian home loan
+            </h2>
+            <p className="mt-4 max-w-2xl text-base text-ink-muted">
+              Each country page starts from local lending conventions: typical terms, rate levels,
+              property taxes, insurance rules and fees. Every field stays editable, because a preset
+              is a starting point, not a verdict.
+            </p>
+          </Reveal>
 
-          <p className="mt-8 text-sm text-slate-500">
-            Ratepit is part of the{" "}
-            <a href={SIBLING_URL} rel="noopener" className="text-brand-300 hover:underline">
-              Toolpit
-            </a>{" "}
-            family - the same client-side, no-signup approach, applied to money.
-          </p>
+          <div className="mt-10 grid gap-4 lg:grid-cols-2">
+            {[
+              { title: "EMI calculator", path: "/loan-emi-calculator" },
+              { title: "Mortgage calculator", path: "/mortgage-calculator" },
+            ].map((group, i) => (
+              <Reveal key={group.path} delay={i * 0.08} className="panel p-6">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-medium text-ink">{group.title}</h3>
+                  <Link href={group.path} className="inline-flex min-h-[44px] items-center text-sm text-citron-400 hover:underline">
+                    Global &rarr;
+                  </Link>
+                </div>
+                <ul className="mt-5 flex flex-wrap gap-2">
+                  {SUB_ROUTE_REGIONS.map((slug) => (
+                    <li key={slug}>
+                      <Link href={`${group.path}/${slug}`} className="chip !px-3.5 sm:!h-9">
+                        {REGIONS[slug].short}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+            ))}
+          </div>
         </section>
+
+        {/* ------------------------------------------------------------ Family */}
+        <Reveal className="mb-20 mt-4 rounded-card border border-line bg-canvas-raised p-8 sm:p-12">
+          <div className="flex flex-wrap items-center justify-between gap-6">
+            <div className="max-w-lg">
+              <p className="eyebrow">The family</p>
+              <p className="mt-4 font-display text-xl font-normal text-ink sm:text-3xl">
+                Ratepit is the money half of Toolpit.
+              </p>
+              <p className="mt-3 text-base text-ink-muted">
+                Same principle, different problem: useful tools, no signup, nothing sent anywhere.
+              </p>
+            </div>
+            <a href={SIBLING_URL} rel="noopener" className="btn-ghost">
+              Visit Toolpit
+              <span aria-hidden>&rarr;</span>
+            </a>
+          </div>
+        </Reveal>
       </div>
     </>
   );

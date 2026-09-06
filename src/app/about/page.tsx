@@ -11,13 +11,14 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12">
-      <h1 className="text-2xl font-semibold tracking-tight text-slate-50 sm:text-3xl">
+    <div className="mx-auto max-w-3xl px-6 pb-16 pt-14">
+      <h1 className="font-display text-4xl font-normal tracking-tight sm:text-6xl">
         How {SITE_NAME} works
       </h1>
-      <p className="mt-2 text-sm text-slate-500">{SITE_TAGLINE}.</p>
+      <p className="mt-5 text-lg text-ink-muted">{SITE_TAGLINE}.</p>
 
-      <div className="prose-ratepit mt-8">
+      <hr className="rule my-10" />
+      <div className="prose-ratepit">
         <h3>Client-side by design</h3>
         <p>
           Financial calculators ask for exactly the information people are most careful with: income,
@@ -67,14 +68,14 @@ export default function AboutPage() {
         <h3>Part of the Toolpit family</h3>
         <p>
           Ratepit is the finance-focused sibling of{" "}
-          <a href={SIBLING_URL} rel="noopener" className="text-brand-300 hover:underline">
+          <a href={SIBLING_URL} rel="noopener" className="text-citron-400 underline-offset-4 hover:underline">
             Toolpit
           </a>
           , built on the same principle: useful tools, no signup, nothing sent anywhere.
         </p>
 
         <p>
-          <Link href="/privacy" className="text-brand-300 hover:underline">
+          <Link href="/privacy" className="text-citron-400 underline-offset-4 hover:underline">
             Read the privacy page
           </Link>{" "}
           for specifics on what is stored locally.

@@ -7,7 +7,27 @@ client-side in the browser — no account, no upload, no figure of the user's st
 
 ## Stack
 
-Next.js 14 (App Router) · TypeScript · Tailwind CSS · Recharts · dark mode by default.
+Next.js 14 (App Router) · TypeScript · Tailwind CSS · Recharts · Motion · dark by default.
+
+### Design system
+
+"Editorial ledger": a warm-tinted near-black canvas with warm off-white text (not cold
+slate), **citron** as the single brand accent used about once per screen, and **coral**
+reserved for live/estimated-data notices. Three type roles — Instrument Serif for display,
+Inter for reading, JetBrains Mono for every figure. Tokens live in `tailwind.config.ts`;
+component primitives (`.panel`, `.btn`, `.chip`, `.field-shell`, `.eyebrow`, `.figure`) in
+`src/app/globals.css`.
+
+Rules the codebase holds itself to:
+
+- Spacing on the 4/8 scale; page gutter `px-6`; content `max-w-6xl`.
+- A sparse type scale — no sizes between the defined steps.
+- Mobile-first, and every page must survive a 360px viewport with no horizontal scroll.
+- Interactive controls are at least 44px tall (sliders included — the visible track is a
+  hairline, the hit area is not).
+- Motion enters once on scroll, animates opacity/transform only, and branches on
+  `useReducedMotion()`. **Reveals never ship `opacity: 0` in the server HTML** — see
+  `src/components/motion.tsx`; content stays visible if JavaScript fails.
 
 ## Getting started
 

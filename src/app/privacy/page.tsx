@@ -10,13 +10,14 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12">
-      <h1 className="text-2xl font-semibold tracking-tight text-slate-50 sm:text-3xl">Privacy</h1>
-      <p className="mt-2 text-sm text-slate-500">
+    <div className="mx-auto max-w-3xl px-6 pb-16 pt-14">
+      <h1 className="font-display text-4xl font-normal tracking-tight sm:text-6xl">Privacy</h1>
+      <p className="mt-5 text-lg text-ink-muted">
         The short version: {SITE_NAME} never sees the numbers you type.
       </p>
 
-      <div className="prose-ratepit mt-8">
+      <hr className="rule my-10" />
+      <div className="prose-ratepit">
         <h3>What stays on your device</h3>
         <p>
           Every calculation - loan amounts, rates, terms, property prices, extra payments - is

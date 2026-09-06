@@ -30,22 +30,21 @@ export function SliderField({
 
   const commit = (raw: string) => {
     const parsed = parseAmount(raw);
-    // Let the field empty out to NaN-free zero rather than locking the cursor.
     onChange(isFinite(parsed) ? parsed : 0);
   };
 
   return (
-    <div className="space-y-2">
-      <div className="flex items-baseline justify-between gap-2">
-        <label htmlFor={id} className="text-sm font-medium text-slate-300">
+    <div className="space-y-3">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <label htmlFor={id} className="text-sm font-medium text-ink">
           {label}
         </label>
         {action}
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="field-shell">
         {prefix ? (
-          <span className="shrink-0 text-sm text-slate-500" aria-hidden>
+          <span className="shrink-0 font-mono text-sm text-ink-faint" aria-hidden>
             {prefix}
           </span>
         ) : null}
@@ -55,10 +54,11 @@ export function SliderField({
           inputMode="decimal"
           value={formatNumber(value, decimals)}
           onChange={(e) => commit(e.target.value)}
-          className="field-input text-right font-mono tabular-nums"
+          className="w-full min-w-0 flex-1 bg-transparent text-right font-mono text-base
+                     text-ink outline-none"
         />
         {suffix ? (
-          <span className="shrink-0 text-sm text-slate-500" aria-hidden>
+          <span className="shrink-0 font-mono text-sm text-ink-faint" aria-hidden>
             {suffix}
           </span>
         ) : null}
@@ -74,7 +74,7 @@ export function SliderField({
         onChange={(e) => onChange(Number(e.target.value))}
       />
 
-      {hint ? <p className="text-xs text-slate-600">{hint}</p> : null}
+      {hint ? <p className="text-xs text-ink-faint">{hint}</p> : null}
     </div>
   );
 }
@@ -94,7 +94,7 @@ export function MoneyField(props: Omit<SliderFieldProps, "prefix">) {
 }
 
 export function TermSelector({
-  label, options, value, onChange, unit = "years",
+  label, options, value, onChange, unit = "yr",
 }: {
   label: string;
   options: number[];
@@ -103,8 +103,8 @@ export function TermSelector({
   unit?: string;
 }) {
   return (
-    <div className="space-y-2">
-      <span className="text-sm font-medium text-slate-300">{label}</span>
+    <div className="space-y-3">
+      <span className="text-sm font-medium text-ink">{label}</span>
       <div className="flex flex-wrap gap-2">
         {options.map((option) => (
           <button
@@ -112,11 +112,7 @@ export function TermSelector({
             type="button"
             onClick={() => onChange(option)}
             aria-pressed={value === option}
-            className={`rounded-lg border px-3 py-1.5 text-sm transition ${
-              value === option
-                ? "border-brand-500 bg-brand-500/15 text-brand-300"
-                : "border-ink-700 text-slate-400 hover:border-ink-600 hover:text-slate-200"
-            }`}
+            className={`chip !px-4 font-mono ${value === option ? "chip-active" : ""}`}
           >
             {option} {unit}
           </button>
@@ -136,19 +132,33 @@ export function ToggleField({
 }) {
   const id = useId();
   return (
-    <div className="flex items-start gap-3">
-      <input
+    <div className="flex items-center gap-3 rounded-xl border border-line bg-canvas-raised/60 p-4">
+      <button
+        type="button"
         id={id}
-        type="checkbox"
-        checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
-        className="mt-0.5 h-4 w-4 rounded border-ink-600 bg-ink-850 accent-brand-500"
-      />
-      <div>
-        <label htmlFor={id} className="text-sm font-medium text-slate-300">
+        role="switch"
+        aria-checked={checked}
+        onClick={() => onChange(!checked)}
+        className="-my-2.5 -ml-2.5 flex h-11 w-11 shrink-0 items-center justify-center rounded-pill"
+      >
+        <span
+          aria-hidden
+          className={`relative block h-6 w-11 rounded-pill border transition ${
+            checked ? "border-citron-500 bg-citron-400/30" : "border-line-strong bg-surface"
+          }`}
+        >
+          <span
+            className={`absolute top-1/2 h-4 w-4 -translate-y-1/2 rounded-pill transition-all ${
+              checked ? "left-6 bg-citron-400" : "left-1 bg-ink-ghost"
+            }`}
+          />
+        </span>
+      </button>
+      <div className="min-w-0">
+        <label htmlFor={id} className="cursor-pointer text-sm font-medium text-ink">
           {label}
         </label>
-        {hint ? <p className="text-xs text-slate-600">{hint}</p> : null}
+        {hint ? <p className="mt-1 text-xs text-ink-faint">{hint}</p> : null}
       </div>
     </div>
   );

@@ -6,8 +6,8 @@ import { formatCurrency, formatDate, formatMonths } from "@/lib/format";
 import type { LoanSchedule } from "@/lib/finance";
 
 /**
- * The single headline number. Shows the live conversion underneath when the
- * user has pinned a second currency.
+ * The single headline number, and the loudest thing on the page. Shows the live
+ * conversion underneath when the user has pinned a second currency.
  */
 export function Headline({
   label, value, sublabel, decimals = 0,
@@ -21,20 +21,22 @@ export function Headline({
   const converted = compareCode ? convertFormatted(value, compareCode, decimals) : null;
 
   return (
-    <div className="rounded-xl border border-brand-500/30 bg-brand-500/[0.07] p-5">
-      <p className="text-xs font-medium uppercase tracking-wider text-brand-300/80">{label}</p>
-      <p className="mt-1 font-mono text-3xl font-semibold tabular-nums text-slate-50 sm:text-4xl">
+    <div className="relative overflow-hidden rounded-card border border-citron-500/25 bg-citron-400/[0.06] p-6 sm:p-8">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-citron-400/10 blur-3xl"
+      />
+      <p className="eyebrow !text-citron-600">{label}</p>
+      <p className="figure mt-3 text-4xl font-medium leading-none text-ink sm:text-6xl">
         {formatCurrency(value, code, { decimals })}
       </p>
       {converted ? (
-        <p className="mt-1 text-sm text-slate-400">
+        <p className="figure mt-3 text-base text-ink-muted">
           &asymp; {converted}
-          {rates?.stale ? (
-            <span className="ml-1 text-amber-400/80">(estimated rate)</span>
-          ) : null}
+          {rates?.stale ? <span className="ml-2 text-coral-400">estimated rate</span> : null}
         </p>
       ) : null}
-      {sublabel ? <p className="mt-2 text-sm text-slate-400">{sublabel}</p> : null}
+      {sublabel ? <p className="mt-3 max-w-md text-sm text-ink-faint">{sublabel}</p> : null}
     </div>
   );
 }
@@ -48,17 +50,47 @@ export function StatTile({
   tone?: "default" | "warn";
 }) {
   return (
-    <div className="rounded-lg border border-ink-700/70 bg-ink-900/50 px-4 py-3">
-      <p className="text-xs text-slate-500">{label}</p>
+    <div className="min-w-0 bg-canvas-raised p-5">
+      <p className="text-xs text-ink-faint">{label}</p>
       <p
-        className={`mt-0.5 font-mono text-lg font-medium tabular-nums ${
-          tone === "warn" ? "text-amber-300" : "text-slate-100"
+        className={`figure mt-2 break-words text-lg font-medium sm:text-xl ${
+          tone === "warn" ? "text-coral-300" : "text-ink"
         }`}
       >
         {value}
       </p>
-      {hint ? <p className="mt-0.5 text-xs text-slate-600">{hint}</p> : null}
+      {hint ? <p className="mt-1.5 text-xs text-ink-ghost">{hint}</p> : null}
     </div>
+  );
+}
+
+/** Hairline-separated grid of stat tiles. */
+export function StatGrid({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="grid grid-cols-1 gap-px overflow-hidden rounded-card border border-line bg-line min-[400px]:grid-cols-2">
+      {children}
+    </div>
+  );
+}
+
+/** A callout for a genuinely useful finding, not decoration. */
+export function Insight({
+  children,
+  tone = "brand",
+}: {
+  children: React.ReactNode;
+  tone?: "brand" | "neutral";
+}) {
+  return (
+    <p
+      className={`rounded-card border p-5 text-sm leading-relaxed ${
+        tone === "brand"
+          ? "border-citron-500/25 bg-citron-400/[0.06] text-citron-200"
+          : "border-line bg-canvas-raised text-ink-muted"
+      }`}
+    >
+      {children}
+    </p>
   );
 }
 
@@ -74,56 +106,58 @@ export function AmortizationTable({ schedule }: { schedule: LoanSchedule }) {
   const start = new Date();
 
   return (
-    <section className="card">
+    <section className="panel overflow-hidden">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="flex w-full items-center justify-between gap-3 text-left"
+        className="flex w-full items-center justify-between gap-4 p-6 text-left transition hover:bg-surface-hi"
       >
         <span>
-          <span className="block text-sm font-semibold text-slate-100">
-            Full amortisation schedule
-          </span>
-          <span className="block text-xs text-slate-500">
+          <span className="block text-base font-medium text-ink">Full amortisation schedule</span>
+          <span className="figure mt-1 block text-xs text-ink-faint">
             {schedule.months} payments &middot; paid off {formatDate(schedule.payoffDate)}
           </span>
         </span>
-        <span className="shrink-0 text-xs text-brand-300">{open ? "Hide" : "Show"}</span>
+        <span className="chip !h-9 shrink-0 !px-4">{open ? "Hide" : "Show"}</span>
       </button>
 
       {open ? (
-        <>
-          <div className="mt-4 max-h-96 overflow-auto rounded-lg border border-ink-800">
-            <table className="w-full text-xs">
-              <thead className="sticky top-0 bg-ink-850 text-left text-slate-400">
+        <div className="border-t border-line px-6 pb-6">
+          <div className="mt-4 max-h-96 overflow-auto rounded-xl border border-line">
+            <table className="w-full text-sm">
+              <thead className="sticky top-0 bg-surface-hi text-left">
                 <tr>
-                  <th scope="col" className="px-3 py-2 font-medium">#</th>
-                  <th scope="col" className="px-3 py-2 font-medium">Date</th>
-                  <th scope="col" className="px-3 py-2 text-right font-medium">Payment</th>
-                  <th scope="col" className="px-3 py-2 text-right font-medium">Principal</th>
-                  <th scope="col" className="px-3 py-2 text-right font-medium">Interest</th>
-                  <th scope="col" className="px-3 py-2 text-right font-medium">Balance</th>
+                  {["#", "Date", "Payment", "Principal", "Interest", "Balance"].map((h, i) => (
+                    <th
+                      key={h}
+                      scope="col"
+                      className={`px-4 py-3 font-mono text-xs font-normal uppercase tracking-wider
+                                  text-ink-faint ${i > 1 ? "text-right" : ""}`}
+                    >
+                      {h}
+                    </th>
+                  ))}
                 </tr>
               </thead>
-              <tbody className="font-mono tabular-nums text-slate-300">
+              <tbody className="figure text-ink-muted">
                 {rows.map((row) => {
                   const date = new Date(start);
                   date.setMonth(date.getMonth() + row.period);
                   return (
-                    <tr key={row.period} className="border-t border-ink-800/70">
-                      <td className="px-3 py-1.5 text-slate-500">{row.period}</td>
-                      <td className="px-3 py-1.5 text-slate-500">{formatDate(date)}</td>
-                      <td className="px-3 py-1.5 text-right">
+                    <tr key={row.period} className="border-t border-line-soft">
+                      <td className="px-4 py-2.5 text-ink-ghost">{row.period}</td>
+                      <td className="px-4 py-2.5 text-ink-ghost">{formatDate(date)}</td>
+                      <td className="px-4 py-2.5 text-right">
                         {formatCurrency(row.payment, code, { decimals: 2 })}
                       </td>
-                      <td className="px-3 py-1.5 text-right">
+                      <td className="px-4 py-2.5 text-right">
                         {formatCurrency(row.principal, code, { decimals: 2 })}
                       </td>
-                      <td className="px-3 py-1.5 text-right">
+                      <td className="px-4 py-2.5 text-right">
                         {formatCurrency(row.interest, code, { decimals: 2 })}
                       </td>
-                      <td className="px-3 py-1.5 text-right">
+                      <td className="px-4 py-2.5 text-right text-ink">
                         {formatCurrency(row.balance, code, { decimals: 2 })}
                       </td>
                     </tr>
@@ -137,14 +171,12 @@ export function AmortizationTable({ schedule }: { schedule: LoanSchedule }) {
             <button
               type="button"
               onClick={() => setShowAll((v) => !v)}
-              className="mt-3 rounded text-xs text-brand-300 underline-offset-2 hover:underline"
+              className="mt-4 text-sm text-citron-400 underline-offset-4 hover:underline"
             >
-              {showAll
-                ? "Show first year only"
-                : `Show all ${schedule.rows.length} payments`}
+              {showAll ? "Show first year only" : `Show all ${schedule.rows.length} payments`}
             </button>
           ) : null}
-        </>
+        </div>
       ) : null}
     </section>
   );

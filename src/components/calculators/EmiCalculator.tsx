@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useCurrency } from "@/components/CurrencyProvider";
 import { MoneyField, SliderField, TermSelector } from "@/components/fields";
 import { BalanceChart, CostBreakdown, SplitChart } from "@/components/charts";
-import { AmortizationTable, Headline, StatTile } from "@/components/results";
+import { AmortizationTable, Headline, Insight, StatGrid, StatTile } from "@/components/results";
 import { buildSchedule } from "@/lib/finance";
 import { formatCurrency, formatDate, formatMonths, formatPercent } from "@/lib/format";
 import type { Region } from "@/lib/regions";
@@ -67,10 +67,13 @@ export function EmiCalculator({ region }: { region: Region }) {
   const convertedMonthly = compareCode ? convertFormatted(monthlyOutgoing, compareCode) : null;
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
+    <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
       {/* Inputs */}
-      <section className="card space-y-6" aria-label="Loan details">
-        <h2 className="text-lg font-semibold text-slate-100">Your loan</h2>
+      <section className="panel min-w-0 space-y-8 p-6 sm:p-8" aria-label="Loan details">
+        <div>
+          <p className="eyebrow">Inputs</p>
+          <h2 className="mt-2 font-display text-3xl font-normal tracking-tight">Your loan</h2>
+        </div>
 
         <MoneyField
           label="Loan amount"
@@ -139,14 +142,18 @@ export function EmiCalculator({ region }: { region: Region }) {
         ) : null}
 
         {config.note ? (
-          <p className="rounded-lg border border-ink-700/60 bg-ink-850/60 p-3 text-xs leading-relaxed text-slate-500">
+          <p className="rounded-xl border border-line bg-canvas-raised/60 p-4 text-xs leading-relaxed text-ink-faint">
             {config.note}
           </p>
         ) : null}
       </section>
 
       {/* Results */}
-      <section className="space-y-4" aria-label="Results" aria-live="polite">
+      <section
+        className="min-w-0 space-y-4 lg:sticky lg:top-24"
+        aria-label="Results"
+        aria-live="polite"
+      >
         <Headline
           label="Monthly EMI"
           value={monthlyOutgoing}
@@ -158,7 +165,7 @@ export function EmiCalculator({ region }: { region: Region }) {
           }
         />
 
-        <div className="grid grid-cols-2 gap-3">
+        <StatGrid>
           <StatTile
             label="Total interest"
             value={formatCurrency(schedule.totalInterest, code)}
@@ -179,19 +186,19 @@ export function EmiCalculator({ region }: { region: Region }) {
             value={formatPercent(apr, 1)}
             hint="Total charges as a share of the amount borrowed"
           />
-        </div>
+        </StatGrid>
 
         {extra > 0 && interestSaved > 0 ? (
-          <p className="rounded-lg border border-brand-500/25 bg-brand-500/[0.06] px-4 py-3 text-sm text-brand-200">
+          <Insight>
             Paying {formatCurrency(extra, code)} extra each month saves{" "}
-            <strong className="font-semibold">{formatCurrency(interestSaved, code)}</strong> in
+            <strong className="font-medium">{formatCurrency(interestSaved, code)}</strong> in
             interest and clears the loan {formatMonths(monthsSaved)} sooner.
-          </p>
+          </Insight>
         ) : null}
 
         {convertedMonthly ? (
-          <p className="text-xs text-slate-500">
-            Monthly payment in {compareCode}: <span className="text-slate-300">{convertedMonthly}</span>
+          <p className="text-xs text-ink-faint">
+            Monthly payment in {compareCode}: <span className="figure text-ink-muted">{convertedMonthly}</span>
           </p>
         ) : null}
 

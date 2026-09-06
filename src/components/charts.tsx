@@ -34,8 +34,8 @@ function ChartTooltip({
 }) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="rounded-lg border border-ink-700 bg-ink-900/95 px-3 py-2 text-xs shadow-xl">
-      <p className="mb-1 font-medium text-slate-200">
+    <div className="rounded-xl border border-line bg-canvas-raised/95 px-4 py-3 text-xs shadow-lift backdrop-blur">
+      <p className="mb-2 font-medium text-ink">
         {labelPrefix} {label}
       </p>
       {payload.map((entry) => (
@@ -45,8 +45,8 @@ function ChartTooltip({
             className="h-2 w-2 shrink-0 rounded-[2px]"
             style={{ background: entry.color }}
           />
-          <span className="text-slate-400">{entry.name}</span>
-          <span className="ml-auto font-mono tabular-nums text-slate-200">
+          <span className="text-ink-faint">{entry.name}</span>
+          <span className="figure ml-auto text-ink">
             {formatCurrency(Number(entry.value), code)}
           </span>
         </div>
@@ -69,17 +69,17 @@ function ChartFrame({
   const [view, setView] = useState<"chart" | "table">("chart");
 
   return (
-    <figure className="card">
+    <figure className="panel p-6">
       <figcaption className="mb-3 flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h3 className="text-sm font-semibold text-slate-100">{title}</h3>
-          {caption ? <p className="mt-0.5 text-xs text-slate-500">{caption}</p> : null}
+          <h3 className="text-base font-medium text-ink">{title}</h3>
+          {caption ? <p className="mt-1 text-xs text-ink-faint">{caption}</p> : null}
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           {legend?.length ? (
-            <ul className="flex items-center gap-3">
+            <ul className="flex flex-wrap items-center gap-3">
               {legend.map((item) => (
-                <li key={item.label} className="flex items-center gap-1.5 text-xs text-slate-400">
+                <li key={item.label} className="flex items-center gap-1.5 text-xs text-ink-muted">
                   <span
                     aria-hidden
                     className="h-2.5 w-2.5 rounded-[3px]"
@@ -90,15 +90,15 @@ function ChartFrame({
               ))}
             </ul>
           ) : null}
-          <div className="flex rounded-md border border-ink-700 p-0.5">
+          <div className="flex rounded-pill border border-line p-1">
             {(["chart", "table"] as const).map((mode) => (
               <button
                 key={mode}
                 type="button"
                 onClick={() => setView(mode)}
                 aria-pressed={view === mode}
-                className={`rounded px-2 py-0.5 text-xs capitalize transition ${
-                  view === mode ? "bg-ink-700 text-slate-100" : "text-slate-500 hover:text-slate-300"
+                className={`h-11 rounded-pill px-4 text-xs capitalize transition sm:h-8 sm:px-3 ${
+                  view === mode ? "bg-surface-hi text-ink" : "text-ink-faint hover:text-ink"
                 }`}
               >
                 {mode}
@@ -109,9 +109,9 @@ function ChartFrame({
       </figcaption>
 
       {view === "chart" ? (
-        <div className="h-64 w-full">{children}</div>
+        <div className="h-72 w-full">{children}</div>
       ) : (
-        <div className="max-h-64 overflow-auto">{table}</div>
+        <div className="max-h-72 overflow-auto">{table}</div>
       )}
     </figure>
   );
@@ -120,7 +120,7 @@ function ChartFrame({
 function YearlyTable({ rows, code }: { rows: YearlyRow[]; code: CurrencyCode }) {
   return (
     <table className="w-full text-xs">
-      <thead className="sticky top-0 bg-ink-900 text-left text-slate-400">
+      <thead className="sticky top-0 bg-surface-hi text-left text-ink-faint">
         <tr>
           <th scope="col" className="py-1.5 pr-3 font-medium">Year</th>
           <th scope="col" className="py-1.5 pr-3 text-right font-medium">Principal</th>
@@ -128,9 +128,9 @@ function YearlyTable({ rows, code }: { rows: YearlyRow[]; code: CurrencyCode }) 
           <th scope="col" className="py-1.5 text-right font-medium">Balance</th>
         </tr>
       </thead>
-      <tbody className="font-mono tabular-nums text-slate-300">
+      <tbody className="figure text-ink-muted">
         {rows.map((row) => (
-          <tr key={row.year} className="border-t border-ink-800">
+          <tr key={row.year} className="border-t border-line-soft">
             <td className="py-1.5 pr-3">{row.year}</td>
             <td className="py-1.5 pr-3 text-right">{formatCurrency(row.principal, code)}</td>
             <td className="py-1.5 pr-3 text-right">{formatCurrency(row.interest, code)}</td>
@@ -304,13 +304,13 @@ export function CostBreakdown({
   const safeTotal = total > 0 ? total : 1;
 
   return (
-    <figure className="card">
+    <figure className="panel p-6">
       <figcaption className="mb-3">
-        <h3 className="text-sm font-semibold text-slate-100">{title}</h3>
-        {caption ? <p className="mt-0.5 text-xs text-slate-500">{caption}</p> : null}
+        <h3 className="text-base font-medium text-ink">{title}</h3>
+        {caption ? <p className="mt-1 text-xs text-ink-faint">{caption}</p> : null}
       </figcaption>
 
-      <div className="flex h-3 w-full gap-0.5 overflow-hidden rounded-full" role="presentation">
+      <div className="flex h-4 w-full gap-1 overflow-hidden rounded-pill" role="presentation">
         {visible.map((slice) => (
           <div
             key={slice.label}
@@ -331,20 +331,20 @@ export function CostBreakdown({
               className="h-2.5 w-2.5 shrink-0 rounded-[3px]"
               style={{ background: slice.color }}
             />
-            <span className="text-slate-400">{slice.label}</span>
-            <span className="ml-auto font-mono tabular-nums text-slate-200">
+            <span className="text-ink-muted">{slice.label}</span>
+            <span className="figure ml-auto text-ink">
               {formatCurrency(slice.value, code)}
             </span>
-            <span className="w-12 text-right font-mono text-xs tabular-nums text-slate-500">
+            <span className="figure w-12 text-right text-xs text-ink-ghost">
               {formatNumber((slice.value / safeTotal) * 100, 0)}%
             </span>
           </li>
         ))}
       </ul>
 
-      <div className="mt-3 flex items-center gap-2 border-t border-ink-800 pt-3 text-sm">
-        <span className="font-medium text-slate-300">Total</span>
-        <span className="ml-auto font-mono tabular-nums text-slate-100">
+      <div className="mt-5 flex items-center gap-2 border-t border-line pt-4 text-sm">
+        <span className="font-medium text-ink-muted">Total</span>
+        <span className="figure ml-auto text-ink">
           {formatCurrency(total, code)}
         </span>
         <span className="w-12" />

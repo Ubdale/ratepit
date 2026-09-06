@@ -22,9 +22,10 @@ export function ExplainerSection({
   children: React.ReactNode;
 }) {
   return (
-    <section className="card">
-      <h2 className="text-lg font-semibold text-slate-100">{title}</h2>
-      <div className="prose-ratepit mt-3">{children}</div>
+    <section className="panel p-6 sm:p-8">
+      <p className="eyebrow">Method</p>
+      <h2 className="mt-3 font-display text-3xl font-normal tracking-tight">{title}</h2>
+      <div className="prose-ratepit mt-6">{children}</div>
     </section>
   );
 }
@@ -32,13 +33,26 @@ export function ExplainerSection({
 /** Renders the same items that feed the FAQPage schema, so the two never drift. */
 export function FaqSection({ items }: { items: FaqItem[] }) {
   return (
-    <section className="card">
-      <h2 className="text-lg font-semibold text-slate-100">Frequently asked questions</h2>
-      <dl className="mt-4 divide-y divide-ink-800">
-        {items.map((item) => (
-          <div key={item.q} className="py-3 first:pt-0 last:pb-0">
-            <dt className="text-sm font-medium text-slate-200">{item.q}</dt>
-            <dd className="mt-1 text-sm leading-relaxed text-slate-400">{item.a}</dd>
+    <section className="panel p-6 sm:p-8">
+      <p className="eyebrow">Questions</p>
+      <h2 className="mt-3 font-display text-3xl font-normal tracking-tight">
+        Frequently asked
+      </h2>
+      <dl className="mt-6">
+        {items.map((item, i) => (
+          <div
+            key={item.q}
+            className={`py-5 ${i === 0 ? "pt-0" : "border-t border-line-soft"}`}
+          >
+            <dt className="flex gap-4 text-base font-medium text-ink">
+              <span className="figure shrink-0 text-sm text-citron-600">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              {item.q}
+            </dt>
+            <dd className="mt-2 max-w-prose pl-9 text-sm leading-relaxed text-ink-muted">
+              {item.a}
+            </dd>
           </div>
         ))}
       </dl>
@@ -48,8 +62,8 @@ export function FaqSection({ items }: { items: FaqItem[] }) {
 
 export function Formula({ children }: { children: React.ReactNode }) {
   return (
-    <div className="my-4 overflow-x-auto rounded-lg border border-ink-700 bg-ink-950/60 px-4 py-3">
-      <code className="whitespace-pre font-mono text-[0.8125rem] text-brand-300">{children}</code>
+    <div className="my-6 overflow-x-auto rounded-xl border border-line bg-canvas-sunken px-5 py-4">
+      <code className="whitespace-pre font-mono text-sm text-citron-300">{children}</code>
     </div>
   );
 }

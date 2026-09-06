@@ -1,29 +1,31 @@
 /**
- * Placeholder mark - a downward rate curve inside a rounded "pit". Swap the SVG
- * when real brand assets land; the sizing contract is just width/height.
+ * Placeholder mark: a descending bar stack in the "pit", with the last bar
+ * picked out in citron. Swap the SVG when real brand assets land - the sizing
+ * contract is just the className.
  */
-export function Logo({ className = "h-7 w-7" }: { className?: string }) {
+export function Logo({ className = "h-8 w-8" }: { className?: string }) {
   return (
     <svg viewBox="0 0 32 32" role="img" aria-label="Ratepit" className={className}>
-      <defs>
-        <linearGradient id="ratepit-mark" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#3fd4a2" />
-          <stop offset="100%" stopColor="#0e9668" />
-        </linearGradient>
-      </defs>
-      <rect x="1" y="1" width="30" height="30" rx="9" fill="url(#ratepit-mark)" opacity="0.16" />
+      <rect x="0.75" y="0.75" width="30.5" height="30.5" rx="10" fill="#16151C" />
       <rect
-        x="1" y="1" width="30" height="30" rx="9"
-        fill="none" stroke="url(#ratepit-mark)" strokeWidth="1.5"
+        x="0.75" y="0.75" width="30.5" height="30.5" rx="10"
+        fill="none" stroke="#3A3746" strokeWidth="1.5"
       />
-      <path
-        d="M7 10.5c3.4 0 3.4 11 6.8 11S17.2 13 20.6 13 24 20 25 20"
-        fill="none"
-        stroke="url(#ratepit-mark)"
-        strokeWidth="2.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <g>
+        <rect x="7" y="9" width="3.6" height="14" rx="1.8" fill="#726D80" />
+        <rect x="12.6" y="13" width="3.6" height="10" rx="1.8" fill="#A9A4B6" />
+        <rect x="18.2" y="16.5" width="3.6" height="6.5" rx="1.8" fill="#F2EFE9" />
+        <rect x="23.8" y="19.5" width="3.6" height="3.5" rx="1.75" fill="#D6F25B" />
+      </g>
     </svg>
+  );
+}
+
+/** Wordmark used in the header and footer. */
+export function Wordmark({ className = "" }: { className?: string }) {
+  return (
+    <span className={`text-lg font-medium tracking-tight text-ink ${className}`}>
+      Rate<span className="text-citron-400">pit</span>
+    </span>
   );
 }

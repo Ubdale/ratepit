@@ -68,30 +68,31 @@ export function EmiPage({ region }: { region: Region }) {
       />
       {isRegional ? <RegionCurrencySync currency={region.currency} /> : null}
 
-      <div className="mx-auto max-w-6xl px-4 py-8">
-        <nav aria-label="Breadcrumb" className="mb-4 text-xs text-slate-500">
-          <Link href="/" className="hover:text-brand-300">
+      <div className="mx-auto max-w-6xl px-6 pb-12 pt-10">
+        <nav aria-label="Breadcrumb" className="mb-8 font-mono text-xs text-ink-ghost">
+          <Link href="/" className="inline-flex min-h-[44px] items-center transition hover:text-citron-300">
             Ratepit
           </Link>
-          <span className="mx-1.5">/</span>
+          <span className="mx-2 text-line-strong">/</span>
           {isRegional ? (
             <>
-              <Link href={EMI_PATH} className="hover:text-brand-300">
+              <Link href={EMI_PATH} className="inline-flex min-h-[44px] items-center transition hover:text-citron-300">
                 EMI Calculator
               </Link>
-              <span className="mx-1.5">/</span>
-              <span className="text-slate-400">{region.short}</span>
+              <span className="mx-2 text-line-strong">/</span>
+              <span className="text-ink-muted">{region.short}</span>
             </>
           ) : (
-            <span className="text-slate-400">EMI Calculator</span>
+            <span className="text-ink-muted">EMI Calculator</span>
           )}
         </nav>
 
-        <header className="mb-6 max-w-3xl">
-          <h1 className="text-2xl font-semibold tracking-tight text-slate-50 sm:text-3xl">
+        <header className="mb-10 max-w-3xl">
+          <p className="eyebrow">Loan EMI</p>
+          <h1 className="mt-4 font-display text-4xl font-normal leading-[1.05] tracking-tight sm:text-6xl">
             {title}
           </h1>
-          <p className="mt-2 text-sm leading-relaxed text-slate-400">
+          <p className="mt-5 max-w-2xl text-lg text-ink-muted">
             Enter your loan amount, rate and term to see the monthly instalment, the total interest
             you will pay and a month-by-month breakdown. Everything is computed on your device -
             nothing you type is uploaded.
@@ -108,7 +109,7 @@ export function EmiPage({ region }: { region: Region }) {
         {/* AD SLOT - after the tool, before the long-form content. */}
         <AdSlot id="emi-mid" variant="inline" />
 
-        <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+        <div className="mt-12 grid items-start gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
           <div className="min-w-0 space-y-6">
             <ExplainerSection>
               <p>
@@ -185,21 +186,18 @@ export function EmiPage({ region }: { region: Region }) {
           </div>
 
           <aside className="min-w-0 space-y-6">
-            <div className="card">
-              <h2 className="text-sm font-semibold text-slate-100">EMI calculator by country</h2>
-              <p className="mt-1 text-xs text-slate-500">
+            <div className="panel p-6 lg:sticky lg:top-24">
+              <h2 className="text-base font-medium text-ink">EMI calculator by country</h2>
+              <p className="mt-1.5 text-xs text-ink-faint">
                 Each one starts from local rate and term conventions.
               </p>
-              <ul className="mt-3 grid grid-cols-2 gap-2 text-sm">
+              <ul className="mt-5 flex flex-wrap gap-2">
                 {SUB_ROUTE_REGIONS.map((slug) => (
                   <li key={slug}>
                     <Link
                       href={`${EMI_PATH}/${slug}`}
-                      className={`block rounded-md px-2 py-1.5 transition ${
-                        slug === region.slug
-                          ? "bg-ink-800 text-slate-200"
-                          : "text-slate-400 hover:bg-ink-850 hover:text-slate-200"
-                      }`}
+                      aria-current={slug === region.slug ? "page" : undefined}
+                      className={`chip !px-3.5 sm:!h-9 ${slug === region.slug ? "chip-active" : ""}`}
                     >
                       {REGIONS[slug].short}
                     </Link>
