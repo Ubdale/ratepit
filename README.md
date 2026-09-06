@@ -132,16 +132,6 @@ visible "estimated rate, live data unavailable" notice** — a calculator never 
 never presents a guess as live data. Regions with no reliable free rate feed get manual
 entry and say so, rather than being shown an invented number.
 
-## Monetisation
-
-Ad placeholders are marked `<!-- AD SLOT -->` in `src/components/AdSlot.tsx` and placed 2–3
-per page, always outside the input → result flow. To go live: add the AdSense loader script
-in `src/app/layout.tsx` (marked with a comment) and replace the placeholder box in
-`AdSlot.tsx` with an `<ins class="adsbygoogle">` tag keyed on the slot `id`.
-
-Every calculator page carries a "how this is calculated" section and an FAQ, both of which
-also feed `FAQPage` and `SoftwareApplication` structured data.
-
 ## Charts
 
 The palette in `src/lib/viz.ts` is validated as a set against the dark chart surface —

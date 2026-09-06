@@ -91,6 +91,7 @@
   .prose-ratepit {
     @apply text-base leading-relaxed text-ink-soft;
   }
+  .prose-ratepit h2,
   .prose-ratepit h3 {
     @apply mt-10 mb-3 font-display text-xl font-bold tracking-tight text-ink;
   }

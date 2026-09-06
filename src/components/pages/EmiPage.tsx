@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { AdSlot } from "@/components/AdSlot";
 import { FilterBar } from "@/components/FilterBar";
 import { RegionCurrencySync } from "@/components/CurrencyProvider";
 import { EmiCalculator } from "@/components/calculators/EmiCalculator";
@@ -113,13 +112,7 @@ export function EmiPage({ region }: { region: Region }) {
 
         <FilterBar region={region} basePath={EMI_PATH} />
 
-        {/* AD SLOT - above the tool, outside the input/result flow. */}
-        <AdSlot id="emi-top" variant="leaderboard" />
-
         <EmiCalculator region={region} />
-
-        {/* AD SLOT - after the tool, before the long-form content. */}
-        <AdSlot id="emi-mid" variant="inline" />
 
         <div className="mt-12 grid items-start gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
           <div className="min-w-0 space-y-6">
@@ -218,8 +211,6 @@ export function EmiPage({ region }: { region: Region }) {
               </ul>
             </div>
 
-            {/* AD SLOT - sidebar rectangle, never beside the inputs. */}
-            <AdSlot id="emi-sidebar" variant="rectangle" className="!my-0" />
           </aside>
         </div>
       </div>

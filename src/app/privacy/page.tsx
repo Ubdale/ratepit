@@ -18,14 +18,14 @@ export default function PrivacyPage() {
 
       <hr className="rule my-10" />
       <div className="prose-ratepit">
-        <h3>What stays on your device</h3>
+        <h2>What stays on your device</h2>
         <p>
           Every calculation - loan amounts, rates, terms, property prices, extra payments - is
           computed in JavaScript inside your browser. Those values are never sent to our servers,
           because there is no server-side calculation to send them to.
         </p>
 
-        <h3>What we store locally</h3>
+        <h2>What we store locally</h2>
         <p>
           Two small preferences are kept in your browser&apos;s <code>localStorage</code> so the site
           remembers them between visits: your selected currency, and your optional second currency
@@ -34,7 +34,7 @@ export default function PrivacyPage() {
           cleared at any time through your browser settings.
         </p>
 
-        <h3>What we request from the network</h3>
+        <h2>What we request from the network</h2>
         <ul>
           <li>
             <strong>Exchange rates</strong> from the Frankfurter API (European Central Bank reference
@@ -50,7 +50,7 @@ export default function PrivacyPage() {
           neither request carries any information about your loan.
         </p>
 
-        <h3>Advertising</h3>
+        <h2>Advertising</h2>
         <p>
           Ratepit is funded by advertising. Ad networks may set cookies and use device identifiers
           for measurement and personalisation, subject to your regional consent settings. Ads are
@@ -58,13 +58,13 @@ export default function PrivacyPage() {
           those values.
         </p>
 
-        <h3>Analytics</h3>
+        <h2>Analytics</h2>
         <p>
           We may record aggregate page-level traffic to understand which calculators are used. This
           never includes the contents of any input field.
         </p>
 
-        <h3>Not financial advice</h3>
+        <h2>Not financial advice</h2>
         <p>
           Ratepit produces estimates for general information. Results are illustrations, not offers
           or recommendations, and they cannot account for your full circumstances. Always confirm

@@ -95,26 +95,25 @@ export function Header() {
         </div>
       </div>
 
-      {open ? (
-        <nav
-          id="mobile-nav"
-          aria-label="Calculators"
-          className="mx-auto mt-2 max-w-6xl rounded-card border-2 border-ink bg-paper p-2 shadow-block lg:hidden"
-        >
-          {LIVE_TOOLS.map((tool) => (
-            <Link
-              key={tool.path}
-              href={tool.path}
-              className="flex min-h-[60px] items-center gap-3 rounded-2xl px-3 text-base
-                         font-semibold text-ink transition hover:bg-cream-deep"
-            >
-              <ToolIcon path={tool.path} size={18} />
-              <span className="flex-1">{tool.name}</span>
-              <span aria-hidden className="text-ink-faint">&rarr;</span>
-            </Link>
-          ))}
-        </nav>
-      ) : null}
+      <nav
+        id="mobile-nav"
+        aria-label="Calculators"
+        hidden={!open}
+        className="mx-auto mt-2 max-w-6xl rounded-card border-2 border-ink bg-paper p-2 shadow-block lg:hidden"
+      >
+        {LIVE_TOOLS.map((tool) => (
+          <Link
+            key={tool.path}
+            href={tool.path}
+            className="flex min-h-[60px] items-center gap-3 rounded-2xl px-3 text-base
+                       font-semibold text-ink transition hover:bg-cream-deep"
+          >
+            <ToolIcon path={tool.path} size={18} />
+            <span className="flex-1">{tool.name}</span>
+            <span aria-hidden className="text-ink-faint">&rarr;</span>
+          </Link>
+        ))}
+      </nav>
     </header>
   );
 }

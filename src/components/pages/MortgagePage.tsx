@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { AdSlot } from "@/components/AdSlot";
 import { FilterBar } from "@/components/FilterBar";
 import { RegionCurrencySync } from "@/components/CurrencyProvider";
 import { MortgageCalculator } from "@/components/calculators/MortgageCalculator";
@@ -154,13 +153,7 @@ export function MortgagePage({ region }: { region: Region }) {
 
         <FilterBar region={region} basePath={MORTGAGE_PATH} />
 
-        {/* AD SLOT - above the tool. */}
-        <AdSlot id="mortgage-top" variant="leaderboard" />
-
         <MortgageCalculator region={region} />
-
-        {/* AD SLOT - between the tool and the long-form content. */}
-        <AdSlot id="mortgage-mid" variant="inline" />
 
         <div className="mt-12 grid items-start gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
           <div className="min-w-0 space-y-6">
@@ -292,8 +285,6 @@ export function MortgagePage({ region }: { region: Region }) {
               </ul>
             </div>
 
-            {/* AD SLOT - sidebar rectangle. */}
-            <AdSlot id="mortgage-sidebar" variant="rectangle" className="!my-0" />
           </aside>
         </div>
       </div>

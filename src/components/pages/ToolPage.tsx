@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { AdSlot } from "@/components/AdSlot";
 import { FilterBar } from "@/components/FilterBar";
 import { ExplainerSection, FaqSection, JsonLd } from "@/components/content";
 import { appSchema, breadcrumbSchema, faqSchema, type FaqItem } from "@/lib/seo";
@@ -76,13 +75,7 @@ export function ToolPage({
 
         <FilterBar region={region} basePath={path} showRegion={false} />
 
-        {/* AD SLOT - above the tool. */}
-        <AdSlot id={`${slotPrefix}-top`} variant="leaderboard" />
-
         {calculator}
-
-        {/* AD SLOT - between the tool and the long-form content. */}
-        <AdSlot id={`${slotPrefix}-mid`} variant="inline" />
 
         <div className="mt-12 grid items-start gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
           <div className="min-w-0 space-y-6">
@@ -113,8 +106,6 @@ export function ToolPage({
               </ul>
             </div>
 
-            {/* AD SLOT - sidebar rectangle. */}
-            <AdSlot id={`${slotPrefix}-sidebar`} variant="rectangle" className="!my-0" />
           </aside>
         </div>
       </div>

@@ -51,10 +51,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${display.variable} ${sans.variable} ${mono.variable}`}
     >
       <body className="flex min-h-screen flex-col">
-        {/*
-          AD SLOT: paste the AdSense loader <script> here once the account is
-          approved, then swap the placeholder boxes in AdSlot.tsx for <ins> tags.
-        */}
         <Providers>
           <a
             href="#main"

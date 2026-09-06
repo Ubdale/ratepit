@@ -1,6 +1,5 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { AdSlot } from "@/components/AdSlot";
 import { JsonLd } from "@/components/content";
 import { Reveal, Stagger, StaggerItem, Press } from "@/components/motion";
 import { ToolIcon } from "@/components/ToolIcon";
@@ -152,7 +151,6 @@ export default function HomePage() {
       </div>
 
       <div className="mx-auto max-w-6xl px-6">
-        <AdSlot id="home-top" variant="leaderboard" />
 
         {/* ------------------------------------------------------------ Tools */}
         <section className="py-14 sm:py-20" aria-labelledby="tools-heading">
@@ -226,8 +224,6 @@ export default function HomePage() {
             ))}
           </div>
         </section>
-
-        <AdSlot id="home-mid" variant="inline" />
 
         {/* ---------------------------------------------------------- Regions */}
         <section className="py-14 sm:py-20" aria-labelledby="regions-heading">

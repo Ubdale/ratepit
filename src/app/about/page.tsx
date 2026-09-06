@@ -19,7 +19,7 @@ export default function AboutPage() {
 
       <hr className="rule my-10" />
       <div className="prose-ratepit">
-        <h3>Client-side by design</h3>
+        <h2>Client-side by design</h2>
         <p>
           Financial calculators ask for exactly the information people are most careful with: income,
           debts, property prices. Almost none of it needs to reach a server - the arithmetic is
@@ -27,7 +27,7 @@ export default function AboutPage() {
           runs it. There is no account, no submit button, and no request carrying your figures.
         </p>
 
-        <h3>Where the numbers come from</h3>
+        <h2>Where the numbers come from</h2>
         <ul>
           <li>
             <strong>Exchange rates</strong> - the Frankfurter API, built on European Central Bank
@@ -46,7 +46,7 @@ export default function AboutPage() {
           you to enter a rate rather than inventing one.
         </p>
 
-        <h3>Regional presets</h3>
+        <h2>Regional presets</h2>
         <p>
           Lending conventions differ enormously. A US mortgage is typically 30 years with property
           tax and PMI folded into the monthly payment; a UK one is 25 years with stamp duty handled
@@ -56,7 +56,7 @@ export default function AboutPage() {
           not a verdict.
         </p>
 
-        <h3>What the calculators do not model</h3>
+        <h2>What the calculators do not model</h2>
         <p>
           Deliberately: rate changes over the term, tax relief, closing costs, prepayment penalties,
           and inflation in tax and insurance costs. Each calculator lists its own exclusions in the
