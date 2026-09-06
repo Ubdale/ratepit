@@ -99,14 +99,18 @@ export const theme = createTheme({
             borderWidth: 1,
           },
         },
-        input: { paddingBlock: 12 },
+        input: { paddingBlock: 12, minWidth: 0 },
       },
     },
 
     MuiInputAdornment: {
       styleOverrides: {
         root: {
+          // A unit label must never wrap: "% p.a." was breaking onto two lines
+          // inside a 48px field and colliding with the value.
+          whiteSpace: "nowrap",
           "& .MuiTypography-root": {
+            whiteSpace: "nowrap",
             fontFamily: "var(--font-mono), monospace",
             fontSize: "0.875rem",
             color: INK_FAINT,
