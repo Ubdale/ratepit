@@ -68,10 +68,10 @@ export function CarLoanCalculator() {
 
   return (
     <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
-      <section className="panel min-w-0 space-y-8 p-6 sm:p-8" aria-label="Vehicle and finance">
+      <section className="min-w-0 space-y-8 rounded-card border-2 border-ink bg-paper p-6 sm:p-8" aria-label="Vehicle and finance">
         <div>
           <p className="eyebrow">Inputs</p>
-          <h2 className="mt-2 font-display text-3xl font-normal tracking-tight">Your car</h2>
+          <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight">Your car</h2>
         </div>
 
         <MoneyField
@@ -177,7 +177,7 @@ export function CarLoanCalculator() {
       </section>
 
       <section
-        className="min-w-0 space-y-4 lg:sticky lg:top-24"
+        className="min-w-0 space-y-4 lg:sticky lg:top-28"
         aria-label="Results"
         aria-live="polite"
       >
@@ -241,7 +241,7 @@ export function CarLoanCalculator() {
         ) : null}
 
         {converted ? (
-          <p className="text-xs text-ink-faint">
+          <p className="text-xs text-ink-muted">
             Monthly payment in {compareCode}:{" "}
             <span className="figure text-ink-muted">{converted}</span>
           </p>

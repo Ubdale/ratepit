@@ -28,9 +28,9 @@ export function ExplainerSection({
   children: React.ReactNode;
 }) {
   return (
-    <section className="panel p-6 sm:p-8">
+    <section className="rounded-card border-2 border-ink bg-paper p-6 sm:p-8">
       <p className="eyebrow">Method</p>
-      <h2 className="mt-3 font-display text-3xl font-normal tracking-tight">{title}</h2>
+      <h2 className="mt-3 font-display text-3xl font-extrabold tracking-tight">{title}</h2>
       <div className="prose-ratepit mt-6">{children}</div>
     </section>
   );
@@ -39,9 +39,9 @@ export function ExplainerSection({
 /** Renders the same items that feed the FAQPage schema, so the two never drift. */
 export function FaqSection({ items }: { items: FaqItem[] }) {
   return (
-    <section className="panel p-6 sm:p-8">
+    <section className="rounded-card border-2 border-ink bg-paper p-6 sm:p-8">
       <p className="eyebrow">Questions</p>
-      <h2 className="mt-3 font-display text-3xl font-normal tracking-tight">Frequently asked</h2>
+      <h2 className="mt-3 font-display text-3xl font-extrabold tracking-tight">Frequently asked</h2>
       <div className="mt-6">
         {items.map((item, i) => (
           <Accordion key={item.q}>
@@ -51,7 +51,7 @@ export function FaqSection({ items }: { items: FaqItem[] }) {
               id={`faq-${i}-header`}
             >
               <span className="flex gap-4 pr-4 text-base font-medium text-ink">
-                <span className="figure shrink-0 text-sm text-citron-600">
+                <span className="figure shrink-0 text-sm text-violet-deep">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 {item.q}
@@ -71,8 +71,8 @@ export function FaqSection({ items }: { items: FaqItem[] }) {
 
 export function Formula({ children }: { children: React.ReactNode }) {
   return (
-    <div className="my-6 overflow-x-auto rounded-xl border border-line bg-canvas-sunken px-5 py-4">
-      <code className="whitespace-pre font-mono text-sm text-citron-300">{children}</code>
+    <div className="my-6 overflow-x-auto rounded-2xl border-2 border-ink bg-cream-deep px-5 py-4">
+      <code className="whitespace-pre font-mono text-sm font-semibold text-ink">{children}</code>
     </div>
   );
 }

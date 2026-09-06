@@ -27,22 +27,30 @@ export function Headline({
     display || !compareCode ? null : convertFormatted(value, compareCode, decimals);
 
   return (
-    <div className="relative overflow-hidden rounded-card border border-citron-500/25 bg-citron-400/[0.06] p-6 sm:p-8">
+    <div className="relative overflow-hidden rounded-block bg-violet p-8 text-white sm:p-10">
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-citron-400/10 blur-3xl"
+        className="pointer-events-none absolute -right-16 -top-20 h-64 w-64 rounded-full bg-white/10"
       />
-      <p className="eyebrow !text-citron-600">{label}</p>
-      <p className="figure mt-3 text-4xl font-medium leading-none text-ink sm:text-6xl">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-24 -left-10 h-56 w-56 rounded-full bg-white/[0.07]"
+      />
+      <p className="relative font-mono text-xs font-semibold uppercase tracking-[0.18em] text-white">
+        {label}
+      </p>
+      <p className="figure relative mt-4 font-bold leading-none text-[clamp(2rem,8.5vw,4.5rem)] sm:text-[clamp(2.5rem,4.5vw,5.5rem)]">
         {display ?? formatCurrency(value, code, { decimals })}
       </p>
       {converted ? (
-        <p className="figure mt-3 text-base text-ink-muted">
+        <p className="figure relative mt-4 text-lg text-white">
           &asymp; {converted}
-          {rates?.stale ? <span className="ml-2 text-coral-400">estimated rate</span> : null}
+          {rates?.stale ? <span className="ml-2 text-lime">estimated rate</span> : null}
         </p>
       ) : null}
-      {sublabel ? <p className="mt-3 max-w-md text-sm text-ink-faint">{sublabel}</p> : null}
+      {sublabel ? (
+        <p className="relative mt-4 max-w-md text-base text-white">{sublabel}</p>
+      ) : null}
     </div>
   );
 }
@@ -56,16 +64,16 @@ export function StatTile({
   tone?: "default" | "warn";
 }) {
   return (
-    <div className="min-w-0 bg-canvas-raised p-5">
-      <p className="text-xs text-ink-faint">{label}</p>
+    <div className="min-w-0 bg-paper p-6">
+      <p className="text-sm font-medium text-ink-muted">{label}</p>
       <p
-        className={`figure mt-2 break-words text-lg font-medium sm:text-xl ${
-          tone === "warn" ? "text-coral-300" : "text-ink"
+        className={`figure mt-2 break-words text-xl font-bold sm:text-3xl ${
+          tone === "warn" ? "text-coral-deep" : "text-ink"
         }`}
       >
         {value}
       </p>
-      {hint ? <p className="mt-1.5 text-xs text-ink-ghost">{hint}</p> : null}
+      {hint ? <p className="mt-2 text-xs text-ink-muted">{hint}</p> : null}
     </div>
   );
 }
@@ -73,7 +81,7 @@ export function StatTile({
 /** Hairline-separated grid of stat tiles. */
 export function StatGrid({ children }: { children: React.ReactNode }) {
   return (
-    <div className="grid grid-cols-1 gap-px overflow-hidden rounded-card border border-line bg-line min-[400px]:grid-cols-2">
+    <div className="grid grid-cols-1 gap-px overflow-hidden rounded-card border border-ink-line bg-line min-[400px]:grid-cols-2">
       {children}
     </div>
   );
@@ -89,10 +97,10 @@ export function Insight({
 }) {
   return (
     <p
-      className={`rounded-card border p-5 text-sm leading-relaxed ${
+      className={`rounded-card p-6 text-base leading-relaxed ${
         tone === "brand"
-          ? "border-citron-500/25 bg-citron-400/[0.06] text-citron-200"
-          : "border-line bg-canvas-raised text-ink-muted"
+          ? "bg-lime text-ink"
+          : "border-2 border-ink-line bg-paper text-ink-soft"
       }`}
     >
       {children}
@@ -112,16 +120,16 @@ export function AmortizationTable({ schedule }: { schedule: LoanSchedule }) {
   const start = new Date();
 
   return (
-    <section className="panel overflow-hidden">
+    <section className="card overflow-hidden">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="flex w-full items-center justify-between gap-4 p-6 text-left transition hover:bg-surface-hi"
+        className="flex w-full items-center justify-between gap-4 p-6 text-left transition hover:bg-cream-deep"
       >
         <span>
           <span className="block text-base font-medium text-ink">Full amortisation schedule</span>
-          <span className="figure mt-1 block text-xs text-ink-faint">
+          <span className="figure mt-1 block text-xs text-ink-muted">
             {schedule.months} payments &middot; paid off {formatDate(schedule.payoffDate)}
           </span>
         </span>
@@ -129,17 +137,17 @@ export function AmortizationTable({ schedule }: { schedule: LoanSchedule }) {
       </button>
 
       {open ? (
-        <div className="border-t border-line px-6 pb-6">
-          <div className="mt-4 max-h-96 overflow-auto rounded-xl border border-line">
+        <div className="border-t border-ink-line px-6 pb-6">
+          <div className="mt-4 max-h-96 overflow-auto rounded-xl border border-ink-line">
             <table className="w-full text-sm">
-              <thead className="sticky top-0 bg-surface-hi text-left">
+              <thead className="sticky top-0 bg-cream-deep text-left">
                 <tr>
                   {["#", "Date", "Payment", "Principal", "Interest", "Balance"].map((h, i) => (
                     <th
                       key={h}
                       scope="col"
                       className={`px-4 py-3 font-mono text-xs font-normal uppercase tracking-wider
-                                  text-ink-faint ${i > 1 ? "text-right" : ""}`}
+                                  text-ink-muted ${i > 1 ? "text-right" : ""}`}
                     >
                       {h}
                     </th>
@@ -151,9 +159,9 @@ export function AmortizationTable({ schedule }: { schedule: LoanSchedule }) {
                   const date = new Date(start);
                   date.setMonth(date.getMonth() + row.period);
                   return (
-                    <tr key={row.period} className="border-t border-line-soft">
-                      <td className="px-4 py-2.5 text-ink-ghost">{row.period}</td>
-                      <td className="px-4 py-2.5 text-ink-ghost">{formatDate(date)}</td>
+                    <tr key={row.period} className="border-t border-ink-line">
+                      <td className="px-4 py-2.5 text-ink-muted">{row.period}</td>
+                      <td className="px-4 py-2.5 text-ink-muted">{formatDate(date)}</td>
                       <td className="px-4 py-2.5 text-right">
                         {formatCurrency(row.payment, code, { decimals: 2 })}
                       </td>
@@ -177,7 +185,7 @@ export function AmortizationTable({ schedule }: { schedule: LoanSchedule }) {
             <button
               type="button"
               onClick={() => setShowAll((v) => !v)}
-              className="mt-4 text-sm text-citron-400 underline-offset-4 hover:underline"
+              className="mt-4 text-sm text-violet underline-offset-4 hover:underline"
             >
               {showAll ? "Show first year only" : `Show all ${schedule.rows.length} payments`}
             </button>

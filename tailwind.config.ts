@@ -1,87 +1,75 @@
 import type { Config } from "tailwindcss";
 
 /**
- * "Editorial ledger" palette. The canvas is a warm-tinted near-black and the
- * text is warm off-white rather than cold slate - that warmth is what stops it
- * reading as another stock dark SaaS theme. Citron is the single brand accent
- * and appears roughly once per screen; coral is reserved for live/estimated
- * data notices.
+ * "Bright fintech" system. A warm cream canvas carries the page, cards are
+ * white, and each tool owns a saturated colour block. Type is oversized and
+ * shapes are heavily rounded - the energy comes from colour and scale, not
+ * from decoration.
  */
 const config: Config = {
-  darkMode: "class",
   content: ["./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        canvas: {
-          DEFAULT: "#0B0A0D",
-          raised: "#111016",
-          sunken: "#08070A",
+        cream: {
+          DEFAULT: "#FFF8EF",
+          deep: "#FCEFE1",
+          sunken: "#F7E7D6",
         },
-        surface: {
-          DEFAULT: "#16151C",
-          hi: "#1D1B24",
-          hover: "#232128",
-        },
-        line: {
-          DEFAULT: "#2A2833",
-          soft: "#201E28",
-          strong: "#3A3746",
-        },
+        paper: "#FFFFFF",
         ink: {
-          DEFAULT: "#F2EFE9",
-          muted: "#A9A4B6",
-          faint: "#726D80",
-          ghost: "#4A4657",
+          DEFAULT: "#181310",
+          soft: "#4A4139",
+          muted: "#5F554D",
+          faint: "#766B61",
+          line: "#E9DCCC",
+          lineStrong: "#D9C7B2",
         },
-        citron: {
-          50: "#F7FCE6",
-          200: "#E8F9A8",
-          300: "#DFF77E",
-          400: "#D6F25B",
-          500: "#C2E03A",
-          600: "#9CBB1F",
-          700: "#748C14",
-        },
-        coral: {
-          300: "#FFA484",
-          400: "#FF7A50",
-          500: "#F2603A",
-        },
+        // Tool + accent blocks. Deliberately saturated.
+        violet: { DEFAULT: "#6D4AFF", deep: "#4B29D6", soft: "#EDE7FF" },
+        coral: { DEFAULT: "#FF5C4D", deep: "#DB3A2B", soft: "#FFE6E2" },
+        mint: { DEFAULT: "#00C08B", deep: "#00966C", soft: "#DEF8EF" },
+        sky: { DEFAULT: "#2E9BFF", deep: "#1470CC", soft: "#E1F0FF" },
+        amber: { DEFAULT: "#FFA33D", deep: "#D97A0B", soft: "#FFF0DC" },
+        pink: { DEFAULT: "#FF5FA2", deep: "#D63277", soft: "#FFE4F0" },
+        lime: { DEFAULT: "#C6F24F", deep: "#8FB914", soft: "#F2FCD9" },
       },
       fontFamily: {
-        display: ["var(--font-display)", "Georgia", "serif"],
+        display: ["var(--font-display)", "ui-sans-serif", "system-ui", "sans-serif"],
         sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
       },
       fontSize: {
-        // Deliberately sparse scale - nothing between these steps.
         xs: ["0.75rem", { lineHeight: "1.1rem" }],
-        sm: ["0.875rem", { lineHeight: "1.35rem" }],
-        base: ["1rem", { lineHeight: "1.6rem" }],
-        lg: ["1.125rem", { lineHeight: "1.7rem" }],
-        xl: ["1.375rem", { lineHeight: "1.85rem" }],
-        "3xl": ["2rem", { lineHeight: "2.25rem" }],
-        "4xl": ["2.75rem", { lineHeight: "2.9rem" }],
-        "6xl": ["4rem", { lineHeight: "4rem" }],
-        "7xl": ["5.5rem", { lineHeight: "5.2rem" }],
+        sm: ["0.875rem", { lineHeight: "1.4rem" }],
+        base: ["1rem", { lineHeight: "1.65rem" }],
+        lg: ["1.1875rem", { lineHeight: "1.8rem" }],
+        xl: ["1.5rem", { lineHeight: "1.9rem" }],
+        "3xl": ["2.25rem", { lineHeight: "2.4rem" }],
+        "4xl": ["3rem", { lineHeight: "3.05rem" }],
+        "6xl": ["4.5rem", { lineHeight: "4.3rem" }],
+        "7xl": ["6rem", { lineHeight: "5.6rem" }],
       },
       borderRadius: {
-        card: "1.25rem",
+        card: "1.75rem",
+        block: "2.5rem",
         pill: "999px",
       },
       boxShadow: {
-        lift: "0 1px 0 0 rgba(255,255,255,0.04) inset, 0 18px 40px -24px rgba(0,0,0,0.9)",
-        glow: "0 0 0 1px rgba(214,242,91,0.35), 0 12px 32px -12px rgba(214,242,91,0.35)",
+        block: "0 2px 0 0 rgba(24,19,16,0.06), 0 24px 48px -32px rgba(24,19,16,0.30)",
+        lift: "0 18px 40px -28px rgba(24,19,16,0.45)",
+        pop: "0 10px 0 0 var(--pop-color, #181310)",
       },
       keyframes: {
-        marquee: {
-          from: { transform: "translateX(0)" },
-          to: { transform: "translateX(-50%)" },
+        marquee: { from: { transform: "translateX(0)" }, to: { transform: "translateX(-50%)" } },
+        float: {
+          "0%,100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
         },
       },
       animation: {
-        marquee: "marquee 44s linear infinite",
+        marquee: "marquee 40s linear infinite",
+        float: "float 7s ease-in-out infinite",
       },
     },
   },

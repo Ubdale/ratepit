@@ -93,10 +93,10 @@ export function InsuranceCalculator() {
 
   return (
     <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
-      <section className="panel min-w-0 space-y-8 p-6 sm:p-8" aria-label="Cover details">
+      <section className="min-w-0 space-y-8 rounded-card border-2 border-ink bg-paper p-6 sm:p-8" aria-label="Cover details">
         <div>
           <p className="eyebrow">Inputs</p>
-          <h2 className="mt-2 font-display text-3xl font-normal tracking-tight">Your cover</h2>
+          <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight">Your cover</h2>
         </div>
 
         <div className="space-y-2">
@@ -158,7 +158,7 @@ export function InsuranceCalculator() {
                 <ToggleButton value="male">Male</ToggleButton>
                 <ToggleButton value="unspecified">Not stated</ToggleButton>
               </ToggleButtonGroup>
-              <p className="text-xs text-ink-faint">
+              <p className="text-xs text-ink-muted">
                 Used only as a rating factor. Some markets, including the EU, require unisex pricing.
               </p>
             </div>
@@ -261,7 +261,7 @@ export function InsuranceCalculator() {
       </section>
 
       <section
-        className="min-w-0 space-y-4 lg:sticky lg:top-24"
+        className="min-w-0 space-y-4 lg:sticky lg:top-28"
         aria-label="Results"
         aria-live="polite"
       >
@@ -271,9 +271,9 @@ export function InsuranceCalculator() {
           sublabel={`Around ${formatCurrency(estimate.annual, code)} a year. This is a modelled estimate, not a quote.`}
         />
 
-        <div className="rounded-card border border-coral-400/30 bg-coral-400/[0.06] p-5">
-          <p className="text-sm text-coral-200">
-            <strong className="font-medium">Realistic range:</strong>{" "}
+        <div className="rounded-card border-2 border-ink bg-coral-soft p-6">
+          <p className="text-base text-ink">
+            <strong className="font-bold">Realistic range:</strong>{" "}
             {formatCurrency(estimate.annualLow / 12, code)} to{" "}
             {formatCurrency(estimate.annualHigh / 12, code)} a month.
           </p>
@@ -310,9 +310,9 @@ export function InsuranceCalculator() {
           />
         </StatGrid>
 
-        <div className="panel p-6">
+        <div className="card p-6">
           <h3 className="text-base font-medium text-ink">What drives this price</h3>
-          <p className="mt-1 text-xs text-ink-faint">
+          <p className="mt-1 text-xs text-ink-muted">
             Each factor multiplies the base rate. Above 1 raises the premium; below 1 lowers it.
           </p>
           <ul className="mt-4 space-y-3">
@@ -323,23 +323,23 @@ export function InsuranceCalculator() {
                   <span
                     className={`figure text-sm ${
                       f.multiplier > 1.02
-                        ? "text-coral-300"
+                        ? "text-coral-deep"
                         : f.multiplier < 0.98
-                          ? "text-citron-400"
-                          : "text-ink-faint"
+                          ? "text-violet"
+                          : "text-ink-muted"
                     }`}
                   >
                     &times;{formatNumber(f.multiplier, 2)}
                   </span>
                 </div>
-                {f.note ? <p className="mt-0.5 text-xs text-ink-ghost">{f.note}</p> : null}
+                {f.note ? <p className="mt-0.5 text-xs text-ink-muted">{f.note}</p> : null}
               </li>
             ))}
           </ul>
         </div>
 
         {converted ? (
-          <p className="text-xs text-ink-faint">
+          <p className="text-xs text-ink-muted">
             Monthly premium in {compareCode}:{" "}
             <span className="figure text-ink-muted">{converted}</span>
           </p>

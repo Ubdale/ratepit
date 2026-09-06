@@ -11,37 +11,37 @@ import { createTheme, alpha } from "@mui/material/styles";
  * Keep these in step with tailwind.config.ts - Tailwind owns layout, MUI owns
  * the controls.
  */
-const CANVAS = "#0B0A0D";
-const CANVAS_RAISED = "#111016";
-const SURFACE = "#16151C";
-const SURFACE_HI = "#1D1B24";
-const LINE = "#2A2833";
-const LINE_STRONG = "#3A3746";
-const INK = "#F2EFE9";
-const INK_MUTED = "#A9A4B6";
-const INK_FAINT = "#726D80";
-const CITRON = "#D6F25B";
-const CITRON_DIM = "#C2E03A";
-const CORAL = "#FF7A50";
+const CANVAS = "#FFF8EF";
+const CANVAS_RAISED = "#FFFFFF";
+const SURFACE = "#FFFFFF";
+const SURFACE_HI = "#FCEFE1";
+const LINE = "#E9DCCC";
+const LINE_STRONG = "#D9C7B2";
+const INK = "#181310";
+const INK_MUTED = "#5F554D";
+const INK_FAINT = "#766B61";
+const CITRON = "#6D4AFF";      // brand accent (violet)
+const CITRON_DIM = "#4B29D6";
+const CORAL = "#FF5C4D";
 
 export const theme = createTheme({
   cssVariables: true,
   palette: {
-    mode: "dark",
-    primary: { main: CITRON, dark: CITRON_DIM, contrastText: CANVAS },
-    secondary: { main: CORAL, contrastText: CANVAS },
+    mode: "light",
+    primary: { main: CITRON, dark: CITRON_DIM, contrastText: "#FFFFFF" },
+    secondary: { main: CORAL, contrastText: "#FFFFFF" },
     warning: { main: CORAL },
     background: { default: CANVAS, paper: SURFACE },
     text: { primary: INK, secondary: INK_MUTED, disabled: INK_FAINT },
     divider: LINE,
   },
-  shape: { borderRadius: 12 },
+  shape: { borderRadius: 16 },
   typography: {
     fontFamily: "var(--font-sans), ui-sans-serif, system-ui, sans-serif",
     button: { textTransform: "none", fontWeight: 500, letterSpacing: 0 },
-    h1: { fontFamily: "var(--font-display), Georgia, serif", fontWeight: 400 },
-    h2: { fontFamily: "var(--font-display), Georgia, serif", fontWeight: 400 },
-    h3: { fontFamily: "var(--font-display), Georgia, serif", fontWeight: 400 },
+    h1: { fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 700 },
+    h2: { fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 700 },
+    h3: { fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 700 },
   },
   components: {
     MuiButton: {
@@ -50,8 +50,9 @@ export const theme = createTheme({
         // v9 dropped the per-variant slots, so target the variant classes here.
         root: {
           borderRadius: 999,
-          minHeight: 44,
+          minHeight: 48,
           paddingInline: 24,
+          fontWeight: 600,
           "&.MuiButton-containedPrimary:hover": { backgroundColor: "#DFF77E" },
           "&.MuiButton-outlined": {
             borderColor: LINE_STRONG,
@@ -64,14 +65,14 @@ export const theme = createTheme({
 
     MuiSlider: {
       styleOverrides: {
-        root: { height: 4, padding: "20px 0", boxSizing: "content-box" },
-        rail: { backgroundColor: LINE, opacity: 1 },
+        root: { height: 6, padding: "19px 0", boxSizing: "content-box" },
+        rail: { backgroundColor: "#F0E4D6", opacity: 1 },
         track: { border: "none", backgroundColor: CITRON_DIM },
         thumb: {
-          width: 20,
-          height: 20,
+          width: 22,
+          height: 22,
           backgroundColor: CITRON,
-          border: "4px solid " + CANVAS,
+          border: "3px solid #FFFFFF",
           "&:hover, &.Mui-focusVisible": { boxShadow: "0 0 0 8px " + alpha(CITRON, 0.16) },
           "&.Mui-active": { boxShadow: "0 0 0 12px " + alpha(CITRON, 0.2) },
         },
@@ -88,15 +89,16 @@ export const theme = createTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          backgroundColor: CANVAS_RAISED,
-          borderRadius: 12,
-          minHeight: 48,
+          backgroundColor: "#FFFFFF",
+          borderRadius: 16,
+          minHeight: 56,
+          fontSize: "1.0625rem",
           fontFamily: "var(--font-mono), monospace",
           "& .MuiOutlinedInput-notchedOutline": { borderColor: LINE },
           "&:hover .MuiOutlinedInput-notchedOutline": { borderColor: LINE_STRONG },
           "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-            borderColor: CITRON_DIM,
-            borderWidth: 1,
+            borderColor: CITRON,
+            borderWidth: 2,
           },
         },
         input: { paddingBlock: 12, minWidth: 0 },
@@ -127,7 +129,7 @@ export const theme = createTheme({
       styleOverrides: {
         root: { flexWrap: "wrap", gap: 8 },
         grouped: {
-          border: "1px solid " + LINE,
+          border: "2px solid " + LINE,
           borderRadius: "999px !important",
           marginLeft: "0 !important",
         },
@@ -138,17 +140,18 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           minHeight: 44,
-          paddingInline: 16,
+          paddingInline: 18,
           borderRadius: 999,
+          fontWeight: 600,
           color: INK_MUTED,
           fontFamily: "var(--font-mono), monospace",
           fontSize: "0.875rem",
           "&:hover": { backgroundColor: SURFACE_HI, color: INK },
           "&.Mui-selected": {
-            backgroundColor: alpha(CITRON, 0.12),
-            borderColor: CITRON_DIM,
-            color: "#DFF77E",
-            "&:hover": { backgroundColor: alpha(CITRON, 0.2) },
+            backgroundColor: INK,
+            borderColor: INK,
+            color: "#FFF8EF",
+            "&:hover": { backgroundColor: INK, color: "#FFF8EF" },
           },
         },
       },
@@ -170,7 +173,7 @@ export const theme = createTheme({
           },
         },
         thumb: { width: 20, height: 20 },
-        track: { borderRadius: 999, backgroundColor: LINE_STRONG, opacity: 1 },
+        track: { borderRadius: 999, backgroundColor: "#DCCDBA", opacity: 1 },
       },
     },
 
@@ -200,13 +203,14 @@ export const theme = createTheme({
     MuiTooltip: {
       styleOverrides: {
         tooltip: {
-          backgroundColor: SURFACE_HI,
-          border: "1px solid " + LINE,
+          backgroundColor: INK,
+          color: "#FFF8EF",
+          border: "none",
           fontSize: "0.75rem",
           padding: "8px 12px",
           borderRadius: 10,
         },
-        arrow: { color: SURFACE_HI },
+        arrow: { color: INK },
       },
     },
 
@@ -221,14 +225,20 @@ export const theme = createTheme({
 
     MuiLinearProgress: {
       styleOverrides: {
-        root: { height: 6, borderRadius: 999, backgroundColor: LINE },
+        root: { height: 10, borderRadius: 999, backgroundColor: "#F0E4D6" },
         bar: { borderRadius: 999 },
       },
     },
 
     MuiMenu: {
       styleOverrides: {
-        paper: { backgroundColor: SURFACE, border: "1px solid " + LINE, backgroundImage: "none" },
+        paper: {
+          backgroundColor: "#FFFFFF",
+          border: "2px solid " + INK,
+          borderRadius: 16,
+          backgroundImage: "none",
+          boxShadow: "0 18px 40px -28px rgba(24,19,16,0.45)",
+        },
       },
     },
 

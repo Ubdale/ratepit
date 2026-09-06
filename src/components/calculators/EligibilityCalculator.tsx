@@ -61,10 +61,10 @@ export function EligibilityCalculator() {
 
   return (
     <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
-      <section className="panel min-w-0 space-y-8 p-6 sm:p-8" aria-label="Income and commitments">
+      <section className="min-w-0 space-y-8 rounded-card border-2 border-ink bg-paper p-6 sm:p-8" aria-label="Income and commitments">
         <div>
           <p className="eyebrow">Inputs</p>
-          <h2 className="mt-2 font-display text-3xl font-normal tracking-tight">
+          <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight">
             Your income
           </h2>
         </div>
@@ -137,13 +137,13 @@ export function EligibilityCalculator() {
       </section>
 
       <section
-        className="min-w-0 space-y-4 lg:sticky lg:top-24"
+        className="min-w-0 space-y-4 lg:sticky lg:top-28"
         aria-label="Results"
         aria-live="polite"
       >
         {result.overCommitted ? (
-          <div className="rounded-card border border-coral-400/40 bg-coral-400/[0.08] p-6 sm:p-8">
-            <p className="eyebrow !text-coral-300">Nothing left to lend against</p>
+          <div className="rounded-card border border-coral/40 bg-coral/[0.08] p-6 sm:p-8">
+            <p className="eyebrow !text-coral-deep">Nothing left to lend against</p>
             <p className="mt-3 font-display text-3xl font-normal text-ink">
               Existing repayments use your whole allowance.
             </p>
@@ -162,7 +162,7 @@ export function EligibilityCalculator() {
           />
         )}
 
-        <div className="rounded-card border border-line bg-canvas-raised p-5">
+        <div className="rounded-card border border-ink-line bg-cream p-5">
           <div className="flex items-baseline justify-between gap-3">
             <span className="text-sm text-ink-muted">Debt allowance used</span>
             <span className="figure text-sm text-ink">
@@ -176,7 +176,7 @@ export function EligibilityCalculator() {
             className="!mt-3"
             aria-label="Share of your borrowing allowance already committed"
           />
-          <p className="mt-2 text-xs text-ink-faint">
+          <p className="mt-2 text-xs text-ink-muted">
             {formatPercent(usedPct, 0)} of what a lender would allow is already committed to
             existing debt.
           </p>
@@ -213,7 +213,7 @@ export function EligibilityCalculator() {
         </Insight>
 
         {converted ? (
-          <p className="text-xs text-ink-faint">
+          <p className="text-xs text-ink-muted">
             Borrowing capacity in {compareCode}:{" "}
             <span className="figure text-ink-muted">{converted}</span>
           </p>

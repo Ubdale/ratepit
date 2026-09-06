@@ -1,16 +1,15 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Serif, Inter, JetBrains_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/seo";
 
-// Three roles, not three decorations: serif for editorial display, sans for
-// reading, mono for every figure on the site.
-const display = Instrument_Serif({
+// Three roles, not three decorations: a chunky grotesque for display, a clean
+// sans for reading, mono for every figure on the site.
+const display = Bricolage_Grotesque({
   subsets: ["latin"],
-  weight: "400",
   display: "swap",
   variable: "--font-display",
 });
@@ -41,15 +40,15 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0B0A0D",
-  colorScheme: "dark",
+  themeColor: "#FFF8EF",
+  colorScheme: "light",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"
-      className={`dark ${display.variable} ${sans.variable} ${mono.variable}`}
+      className={`${display.variable} ${sans.variable} ${mono.variable}`}
     >
       <body className="flex min-h-screen flex-col">
         {/*
@@ -60,8 +59,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <a
             href="#main"
             className="sr-only focus:not-sr-only focus:absolute focus:left-6 focus:top-6 focus:z-50
-                       focus:rounded-pill focus:bg-citron-400 focus:px-4 focus:py-2
-                       focus:text-sm focus:font-medium focus:text-canvas"
+                       focus:rounded-pill focus:bg-ink focus:px-5 focus:py-3
+                       focus:text-sm focus:font-semibold focus:text-cream"
           >
             Skip to content
           </a>

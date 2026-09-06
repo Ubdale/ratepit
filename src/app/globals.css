@@ -3,8 +3,7 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
-  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+  color-scheme: light;
 }
 
 @layer base {
@@ -13,33 +12,11 @@
   }
 
   body {
-    @apply bg-canvas font-sans text-ink antialiased;
-  }
-
-  /* Two soft blooms + a fine grain give the flat canvas some depth. */
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -2;
-    pointer-events: none;
-    background:
-      radial-gradient(48rem 30rem at 12% -6rem, rgba(214, 242, 91, 0.1), transparent 65%),
-      radial-gradient(38rem 26rem at 92% 8%, rgba(255, 122, 80, 0.07), transparent 62%);
-  }
-
-  body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    background-image: var(--grain);
-    opacity: 0.028;
+    @apply bg-cream font-sans text-ink antialiased;
   }
 
   h1, h2, h3 {
-    @apply text-balance;
+    @apply text-balance font-display;
   }
 
   p {
@@ -55,87 +32,55 @@
     -moz-appearance: textfield;
   }
 
-  /*
-   * The visible track stays a 4px hairline, but the input itself is 44px tall
-   * so the drag target clears the minimum tap size.
-   */
-  input[type="range"] {
-    @apply h-11 w-full cursor-pointer appearance-none bg-transparent;
-  }
-  input[type="range"]::-webkit-slider-runnable-track {
-    @apply h-1 rounded-pill bg-line;
-  }
-  input[type="range"]::-webkit-slider-thumb {
-    @apply h-5 w-5 appearance-none rounded-pill border-4 border-canvas bg-citron-400 transition;
-    margin-top: -0.5rem;
-    box-shadow: 0 0 0 1px rgba(214, 242, 91, 0.5);
-  }
-  input[type="range"]:hover::-webkit-slider-thumb {
-    @apply bg-citron-300;
-  }
-  input[type="range"]::-moz-range-track {
-    @apply h-1 rounded-pill bg-line;
-  }
-  input[type="range"]::-moz-range-thumb {
-    @apply h-5 w-5 rounded-pill border-4 border-canvas bg-citron-400;
-  }
-
   :focus-visible {
-    @apply outline-none ring-2 ring-citron-400 ring-offset-2 ring-offset-canvas;
+    @apply outline-none ring-4 ring-violet/35 ring-offset-2 ring-offset-cream;
   }
 
   ::selection {
-    @apply bg-citron-400/30 text-ink;
+    @apply bg-violet/20 text-ink;
   }
 }
 
 @layer components {
-  /* The one surface primitive. Everything boxed uses this. */
-  .panel {
-    @apply rounded-card border border-line bg-surface/70 shadow-lift backdrop-blur-sm;
+  /* White card on the cream canvas - the default container. */
+  .card {
+    @apply rounded-card border border-ink-line bg-paper shadow-block;
   }
 
-  .panel-flush {
-    @apply rounded-card border border-line bg-surface/50;
+  /* A saturated colour block. Set the colour with a bg-* utility. */
+  .block-tile {
+    @apply rounded-block border border-ink/10;
   }
 
   .eyebrow {
-    @apply font-mono text-xs uppercase tracking-[0.22em] text-ink-faint;
+    @apply font-mono text-xs font-medium uppercase tracking-[0.18em] text-ink-faint;
   }
 
   .btn {
-    @apply inline-flex h-11 items-center justify-center gap-2 rounded-pill px-6 text-sm
-           font-medium transition;
+    @apply inline-flex h-14 items-center justify-center gap-2 rounded-pill px-8 text-base
+           font-semibold transition-transform duration-150 active:translate-y-0.5;
   }
   .btn-primary {
-    @apply btn bg-citron-400 text-canvas hover:bg-citron-300;
+    @apply btn bg-ink text-cream hover:bg-violet-deep;
   }
-  .btn-ghost {
-    @apply btn border border-line-strong text-ink hover:border-ink-ghost hover:bg-surface;
+  .btn-accent {
+    @apply btn bg-violet text-white hover:bg-violet-deep;
   }
-
-  /* Wrapper that owns the chrome so prefix/suffix sit beside the input. */
-  .field-shell {
-    @apply flex items-center gap-2 rounded-xl border border-line bg-canvas-raised px-4 py-2.5
-           transition hover:border-line-strong focus-within:border-citron-500;
-  }
-
-  .field-input {
-    @apply w-full rounded-xl border border-line bg-canvas-raised px-4 py-2.5 font-mono text-base
-           text-ink transition placeholder:text-ink-ghost hover:border-line-strong
-           focus:border-citron-500;
-  }
-
-  .nav-link {
-    @apply flex min-h-[44px] items-center text-ink-muted transition hover:text-citron-300;
+  .btn-outline {
+    @apply btn border-2 border-ink bg-transparent text-ink hover:bg-ink hover:text-cream;
   }
 
   .chip {
-    @apply inline-flex h-11 items-center rounded-pill border border-line px-4 text-sm
-           text-ink-muted transition hover:border-ink-ghost hover:text-ink;
+    @apply inline-flex h-11 items-center rounded-pill border-2 border-ink-line bg-paper px-4
+           text-sm font-medium text-ink-soft transition
+           hover:border-ink hover:text-ink;
   }
   .chip-active {
-    @apply border-citron-500 bg-citron-400/10 text-citron-300;
+    @apply border-ink bg-ink text-cream hover:text-cream;
+  }
+
+  .nav-link {
+    @apply flex min-h-[44px] items-center font-medium text-ink-muted transition hover:text-ink;
   }
 
   /* Numerals are the content on this site - align them everywhere. */
@@ -144,10 +89,10 @@
   }
 
   .prose-ratepit {
-    @apply text-base leading-relaxed text-ink-muted;
+    @apply text-base leading-relaxed text-ink-soft;
   }
   .prose-ratepit h3 {
-    @apply mt-8 mb-3 font-display text-xl font-normal text-ink;
+    @apply mt-10 mb-3 font-display text-xl font-bold tracking-tight text-ink;
   }
   .prose-ratepit p {
     @apply mb-4 max-w-prose;
@@ -156,28 +101,23 @@
     @apply mb-4 max-w-prose space-y-2 pl-0;
   }
   .prose-ratepit li {
-    @apply relative pl-6;
+    @apply relative pl-7;
   }
   .prose-ratepit li::before {
     content: "";
-    @apply absolute left-0 top-[0.6em] h-1.5 w-1.5 rounded-pill bg-citron-500;
+    @apply absolute left-0 top-[0.55em] h-2.5 w-2.5 rounded-pill bg-violet;
   }
   .prose-ratepit code {
-    @apply rounded bg-canvas-raised px-1.5 py-0.5 font-mono text-sm text-citron-300;
+    @apply rounded-md bg-cream-deep px-1.5 py-0.5 font-mono text-sm text-violet-deep;
   }
   .prose-ratepit strong {
-    @apply font-medium text-ink;
-  }
-
-  /* Hairline rule that fades out - used to separate editorial blocks. */
-  .rule {
-    @apply h-px w-full border-0;
-    background: linear-gradient(90deg, #3a3746, rgba(58, 55, 70, 0));
+    @apply font-semibold text-ink;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-marquee {
+  .animate-marquee,
+  .animate-float {
     animation: none !important;
   }
   *,

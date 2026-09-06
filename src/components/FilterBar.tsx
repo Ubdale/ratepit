@@ -38,7 +38,7 @@ export function FilterBar({
   const degraded = Boolean(ratesError) || Boolean(rates?.stale);
 
   return (
-    <div className="panel p-5 sm:p-6">
+    <div className="card p-5 sm:p-6">
       <div className="flex flex-wrap items-center gap-4">
         <FormControl size="small" className="w-full sm:w-52">
           <InputLabel id="rp-currency">Currency</InputLabel>
@@ -54,7 +54,7 @@ export function FilterBar({
               <MenuItem key={c.code} value={c.code}>
                 <span className="font-mono">{c.symbol}</span>
                 <span className="ml-2">{c.code}</span>
-                <span className="ml-2 text-ink-faint">{c.label}</span>
+                <span className="ml-2 text-ink-muted">{c.label}</span>
               </MenuItem>
             ))}
           </Select>
@@ -121,7 +121,7 @@ export function FilterBar({
               <span
                 aria-hidden
                 className={`!ml-2.5 h-1.5 w-1.5 rounded-pill ${
-                  ratesLoading ? "bg-ink-ghost" : degraded ? "bg-coral-400" : "bg-citron-400"
+                  ratesLoading ? "bg-ink-faint" : degraded ? "bg-coral" : "bg-violet"
                 }`}
               />
             }
@@ -137,7 +137,7 @@ export function FilterBar({
         </div>
       </div>
 
-      <p className="mt-5 border-t border-line-soft pt-4 text-xs text-ink-ghost">
+      <p className="mt-5 border-t border-ink-line pt-4 text-xs text-ink-muted">
         {degraded
           ? "Live exchange rates are unavailable, so conversions use a stored estimate. "
           : ""}

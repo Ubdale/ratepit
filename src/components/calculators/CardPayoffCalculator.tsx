@@ -88,10 +88,10 @@ export function CardPayoffCalculator() {
 
   return (
     <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
-      <section className="panel min-w-0 space-y-8 p-6 sm:p-8" aria-label="Card details">
+      <section className="min-w-0 space-y-8 rounded-card border-2 border-ink bg-paper p-6 sm:p-8" aria-label="Card details">
         <div>
           <p className="eyebrow">Inputs</p>
-          <h2 className="mt-2 font-display text-3xl font-normal tracking-tight">Your balance</h2>
+          <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight">Your balance</h2>
         </div>
 
         <MoneyField
@@ -180,19 +180,19 @@ export function CardPayoffCalculator() {
       </section>
 
       <section
-        className="min-w-0 space-y-4 lg:sticky lg:top-24"
+        className="min-w-0 space-y-4 lg:sticky lg:top-28"
         aria-label="Results"
         aria-live="polite"
       >
         {neverClears ? (
-          <div className="rounded-card border border-coral-400/40 bg-coral-400/[0.08] p-6 sm:p-8">
-            <p className="eyebrow !text-coral-300">This never clears</p>
+          <div className="rounded-card border border-coral/40 bg-coral/[0.08] p-6 sm:p-8">
+            <p className="eyebrow !text-coral-deep">This never clears</p>
             <p className="mt-3 font-display text-3xl font-normal text-ink">
               The balance grows instead of falling.
             </p>
             <p className="mt-3 text-sm text-ink-muted">
               Interest in the first month alone is{" "}
-              <strong className="font-medium text-coral-300">
+              <strong className="font-medium text-coral-deep">
                 {formatCurrency(result.firstMonthInterest, code)}
               </strong>
               . Any payment at or below that leaves the debt larger than it started. You need to pay
@@ -259,7 +259,7 @@ export function CardPayoffCalculator() {
         ) : null}
 
         {mode === "fixed" && !neverClears && interestSaved > 0 ? (
-          <p className="text-xs text-ink-faint">
+          <p className="text-xs text-ink-muted">
             Versus minimum-only payments, this saves{" "}
             <span className="figure text-ink-muted">{formatCurrency(interestSaved, code)}</span>
             {minimumOnly.months !== null
@@ -269,7 +269,7 @@ export function CardPayoffCalculator() {
         ) : null}
 
         {converted ? (
-          <p className="text-xs text-ink-faint">
+          <p className="text-xs text-ink-muted">
             Monthly payment in {compareCode}:{" "}
             <span className="figure text-ink-muted">{converted}</span>
           </p>

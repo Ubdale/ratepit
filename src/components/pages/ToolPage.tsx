@@ -52,26 +52,26 @@ export function ToolPage({
 
       <div className="mx-auto max-w-6xl px-6 pb-12 pt-10">
         <nav aria-label="Breadcrumb" className="mb-8">
-          <ol className="flex flex-wrap items-center gap-x-2 font-mono text-xs text-ink-ghost">
+          <ol className="flex flex-wrap items-center gap-x-2 font-mono text-xs text-ink-muted">
             <li>
               <Link
                 href="/"
-                className="flex min-h-[44px] items-center transition hover:text-citron-300"
+                className="flex min-h-[44px] items-center font-medium transition hover:text-violet"
               >
                 Ratepit
               </Link>
             </li>
-            <li aria-hidden className="text-line-strong">/</li>
+            <li aria-hidden className="text-ink-muted">/</li>
             <li className="flex min-h-[44px] items-center text-ink-muted">{toolName}</li>
           </ol>
         </nav>
 
         <header className="mb-10 max-w-3xl">
           <p className="eyebrow">{eyebrow}</p>
-          <h1 className="mt-4 font-display text-4xl font-normal leading-[1.05] tracking-tight sm:text-6xl">
+          <h1 className="mt-4 font-display text-4xl font-extrabold leading-[0.95] tracking-tight sm:text-6xl">
             {title}
           </h1>
-          <p className="mt-5 max-w-2xl text-lg text-ink-muted">{intro}</p>
+          <p className="mt-6 max-w-2xl text-lg text-ink-soft">{intro}</p>
         </header>
 
         <FilterBar region={region} basePath={path} showRegion={false} />
@@ -91,9 +91,9 @@ export function ToolPage({
           </div>
 
           <aside className="min-w-0 space-y-6">
-            <div className="panel p-6 lg:sticky lg:top-24">
-              <h2 className="text-base font-medium text-ink">Other calculators</h2>
-              <p className="mt-1.5 text-xs text-ink-faint">
+            <div className="rounded-card border-2 border-ink bg-paper p-6 lg:sticky lg:top-28">
+              <h2 className="font-display text-lg font-bold text-ink">Other calculators</h2>
+              <p className="mt-1.5 text-xs text-ink-muted">
                 All free, all client-side, all in your currency.
               </p>
               <ul className="mt-5 space-y-2">
@@ -103,10 +103,10 @@ export function ToolPage({
                       href={tool.path}
                       className="flex min-h-[44px] items-center justify-between gap-3 rounded-xl
                                  px-3 text-sm text-ink-muted transition
-                                 hover:bg-surface-hi hover:text-ink"
+                                 hover:bg-cream-deep hover:text-ink"
                     >
                       {tool.name}
-                      <span aria-hidden className="text-citron-400">&rarr;</span>
+                      <span aria-hidden className="text-ink-faint">&rarr;</span>
                     </Link>
                   </li>
                 ))}

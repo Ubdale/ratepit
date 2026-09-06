@@ -1,22 +1,16 @@
 /**
- * Placeholder mark: a descending bar stack in the "pit", with the last bar
- * picked out in citron. Swap the SVG when real brand assets land - the sizing
- * contract is just the className.
+ * Placeholder mark: a stack of descending bars in a rounded block, the last one
+ * picked out in the brand violet. Swap the SVG when real brand assets land -
+ * the sizing contract is just the className.
  */
-export function Logo({ className = "h-8 w-8" }: { className?: string }) {
+export function Logo({ className = "h-10 w-10" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 32 32" role="img" aria-label="Ratepit" className={className}>
-      <rect x="0.75" y="0.75" width="30.5" height="30.5" rx="10" fill="#16151C" />
-      <rect
-        x="0.75" y="0.75" width="30.5" height="30.5" rx="10"
-        fill="none" stroke="#3A3746" strokeWidth="1.5"
-      />
-      <g>
-        <rect x="7" y="9" width="3.6" height="14" rx="1.8" fill="#726D80" />
-        <rect x="12.6" y="13" width="3.6" height="10" rx="1.8" fill="#A9A4B6" />
-        <rect x="18.2" y="16.5" width="3.6" height="6.5" rx="1.8" fill="#F2EFE9" />
-        <rect x="23.8" y="19.5" width="3.6" height="3.5" rx="1.75" fill="#D6F25B" />
-      </g>
+    <svg viewBox="0 0 40 40" role="img" aria-label="Ratepit" className={className}>
+      <rect x="0" y="0" width="40" height="40" rx="13" fill="#181310" />
+      <rect x="8"  y="11" width="4.5" height="18" rx="2.25" fill="#FFF8EF" opacity="0.35" />
+      <rect x="15" y="16" width="4.5" height="13" rx="2.25" fill="#FFF8EF" opacity="0.6" />
+      <rect x="22" y="20" width="4.5" height="9"  rx="2.25" fill="#FFF8EF" />
+      <rect x="29" y="24" width="4.5" height="5"  rx="2.25" fill="#C6F24F" />
     </svg>
   );
 }
@@ -24,8 +18,8 @@ export function Logo({ className = "h-8 w-8" }: { className?: string }) {
 /** Wordmark used in the header and footer. */
 export function Wordmark({ className = "" }: { className?: string }) {
   return (
-    <span className={`text-lg font-medium tracking-tight text-ink ${className}`}>
-      Rate<span className="text-citron-400">pit</span>
+    <span className={`font-display text-xl font-extrabold tracking-tight text-ink ${className}`}>
+      Ratepit
     </span>
   );
 }

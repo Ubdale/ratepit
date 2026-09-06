@@ -31,15 +31,15 @@ export function AdSlot({
 
   return (
     <aside aria-label="Advertisement" data-ad-slot={id} className={`my-8 ${className}`}>
-      <p className="mb-2 text-center font-mono text-[0.65rem] uppercase tracking-[0.22em] text-ink-ghost">
+      <p className="mb-2 text-center font-mono text-[0.65rem] uppercase tracking-[0.22em] text-ink-muted">
         Advertisement
       </p>
       {/* AD SLOT: replace this box with the AdSense <ins> tag for `id`. */}
       <div
         className={`flex ${spec.minHeight} items-center justify-center overflow-hidden
-                    rounded-card border border-dashed border-line bg-surface/30 px-6 text-center`}
+                    rounded-card border border-dashed border-ink-line bg-cream-deep/50 px-6 text-center`}
       >
-        <span className="break-words font-mono text-xs text-ink-ghost">
+        <span className="break-words font-mono text-xs text-ink-muted">
           ad slot &ldquo;{id}&rdquo; &middot; {spec.hint}
         </span>
       </div>

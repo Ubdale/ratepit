@@ -66,7 +66,7 @@ export default function AboutPage() {
         </p>
 
         <p>
-          <Link href="/privacy" className="text-citron-400 underline-offset-4 hover:underline">
+          <Link href="/privacy" className="text-violet underline-offset-4 hover:underline">
             Read the privacy page
           </Link>{" "}
           for specifics on what is stored locally.

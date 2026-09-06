@@ -110,27 +110,27 @@ export function MortgagePage({ region }: { region: Region }) {
 
       <div className="mx-auto max-w-6xl px-6 pb-12 pt-10">
         <nav aria-label="Breadcrumb" className="mb-8">
-          <ol className="flex flex-wrap items-center gap-x-2 font-mono text-xs text-ink-ghost">
+          <ol className="flex flex-wrap items-center gap-x-2 font-mono text-xs text-ink-muted">
             <li>
               <Link
                 href="/"
-                className="flex min-h-[44px] items-center transition hover:text-citron-300"
+                className="flex min-h-[44px] items-center font-medium transition hover:text-violet"
               >
                 Ratepit
               </Link>
             </li>
-            <li aria-hidden className="text-line-strong">/</li>
+            <li aria-hidden className="text-ink-muted">/</li>
             {isRegional ? (
               <>
                 <li>
                   <Link
                     href={MORTGAGE_PATH}
-                    className="flex min-h-[44px] items-center transition hover:text-citron-300"
+                    className="flex min-h-[44px] items-center font-medium transition hover:text-violet"
                   >
                     Mortgage Calculator
                   </Link>
                 </li>
-                <li aria-hidden className="text-line-strong">/</li>
+                <li aria-hidden className="text-ink-muted">/</li>
                 <li className="flex min-h-[44px] items-center text-ink-muted">{region.short}</li>
               </>
             ) : (
@@ -141,10 +141,10 @@ export function MortgagePage({ region }: { region: Region }) {
 
         <header className="mb-10 max-w-3xl">
           <p className="eyebrow">Mortgage</p>
-          <h1 className="mt-4 font-display text-4xl font-normal leading-[1.05] tracking-tight sm:text-6xl">
+          <h1 className="mt-4 font-display text-4xl font-extrabold leading-[0.95] tracking-tight sm:text-6xl">
             {title}
           </h1>
-          <p className="mt-5 max-w-2xl text-lg text-ink-muted">
+          <p className="mt-6 max-w-2xl text-lg text-ink-soft">
             Work out the real monthly cost of a home loan - principal, interest
             {config.showPropertyTax ? ", property tax" : ""}
             {config.showPmi ? ", mortgage insurance" : ""} and insurance - with a full amortisation
@@ -272,9 +272,9 @@ export function MortgagePage({ region }: { region: Region }) {
           </div>
 
           <aside className="min-w-0 space-y-6">
-            <div className="panel p-6 lg:sticky lg:top-24">
-              <h2 className="text-base font-medium text-ink">Mortgage calculator by country</h2>
-              <p className="mt-1.5 text-xs text-ink-faint">
+            <div className="rounded-card border-2 border-ink bg-paper p-6 lg:sticky lg:top-28">
+              <h2 className="font-display text-lg font-bold text-ink">Mortgage calculator by country</h2>
+              <p className="mt-1.5 text-xs text-ink-muted">
                 Local terms, taxes and insurance conventions built in.
               </p>
               <ul className="mt-5 flex flex-wrap gap-2">

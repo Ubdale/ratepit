@@ -104,7 +104,7 @@ export function MortgageCalculator({ region }: { region: Region }) {
   const rateAction = config.hasLiveRate ? (
     <span className="text-xs">
       {live.loading ? (
-        <span className="text-ink-ghost">checking rate&hellip;</span>
+        <span className="text-ink-muted">checking rate&hellip;</span>
       ) : canSuggestRate ? (
         <button
           type="button"
@@ -112,22 +112,22 @@ export function MortgageCalculator({ region }: { region: Region }) {
             setRate(liveRate.rate);
             setRateApplied(true);
           }}
-          className="inline-flex items-center gap-1.5 rounded-pill border border-citron-500/40 bg-citron-400/10 px-3 py-1 text-citron-300 transition hover:bg-citron-400/20"
+          className="inline-flex items-center gap-1.5 rounded-pill border border-violet/40 bg-violet/10 px-3 py-1 text-violet transition hover:bg-violet/20"
         >
           Current avg {formatPercent(liveRate.rate, 2)} - tap to use
         </button>
       ) : (
-        <span className="text-coral-300">estimated rate, live data unavailable</span>
+        <span className="text-coral-deep">estimated rate, live data unavailable</span>
       )}
     </span>
   ) : undefined;
 
   return (
     <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
-      <section className="panel min-w-0 space-y-8 p-6 sm:p-8" aria-label="Mortgage details">
+      <section className="min-w-0 space-y-8 rounded-card border-2 border-ink bg-paper p-6 sm:p-8" aria-label="Mortgage details">
         <div>
           <p className="eyebrow">Inputs</p>
-          <h2 className="mt-2 font-display text-3xl font-normal tracking-tight">
+          <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight">
             Your {config.hasLiveRate ? "mortgage" : region.mortgageTerm.toLowerCase()}
           </h2>
         </div>
@@ -275,15 +275,15 @@ export function MortgageCalculator({ region }: { region: Region }) {
         />
 
         {config.note ? (
-          <p className="rounded-xl border border-line bg-canvas-raised/60 p-4 text-xs leading-relaxed text-ink-faint">
+          <p className="rounded-xl border border-ink-line bg-cream p-4 text-xs leading-relaxed text-ink-muted">
             {config.note}
           </p>
         ) : null}
 
         {config.hasLiveRate && liveRate ? (
-          <p className="text-xs text-ink-ghost">
+          <p className="text-xs text-ink-muted">
             {liveRate.stale ? (
-              <span className="text-coral-300">
+              <span className="text-coral-deep">
                 Estimated rate - live data unavailable
                 {liveRate.message ? `. ${liveRate.message}` : ""}
               </span>
@@ -300,7 +300,7 @@ export function MortgageCalculator({ region }: { region: Region }) {
       </section>
 
       <section
-        className="min-w-0 space-y-4 lg:sticky lg:top-24"
+        className="min-w-0 space-y-4 lg:sticky lg:top-28"
         aria-label="Results"
         aria-live="polite"
       >
@@ -350,7 +350,7 @@ export function MortgageCalculator({ region }: { region: Region }) {
         ) : null}
 
         {convertedMonthly ? (
-          <p className="text-xs text-ink-faint">
+          <p className="text-xs text-ink-muted">
             Monthly payment in {compareCode}:{" "}
             <span className="figure text-ink-muted">{convertedMonthly}</span>
           </p>

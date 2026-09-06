@@ -34,7 +34,7 @@ function ChartTooltip({
 }) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="rounded-xl border border-line bg-canvas-raised/95 px-4 py-3 text-xs shadow-lift backdrop-blur">
+    <div className="rounded-xl border border-ink-line bg-paper px-4 py-3 text-xs shadow-block backdrop-blur">
       <p className="mb-2 font-medium text-ink">
         {labelPrefix} {label}
       </p>
@@ -45,7 +45,7 @@ function ChartTooltip({
             className="h-2 w-2 shrink-0 rounded-[2px]"
             style={{ background: entry.color }}
           />
-          <span className="text-ink-faint">{entry.name}</span>
+          <span className="text-ink-muted">{entry.name}</span>
           <span className="figure ml-auto text-ink">
             {formatCurrency(Number(entry.value), code)}
           </span>
@@ -69,11 +69,11 @@ function ChartFrame({
   const [view, setView] = useState<"chart" | "table">("chart");
 
   return (
-    <figure className="panel p-6">
+    <figure className="card p-6">
       <figcaption className="mb-3 flex flex-wrap items-start justify-between gap-3">
         <div>
           <h3 className="text-base font-medium text-ink">{title}</h3>
-          {caption ? <p className="mt-1 text-xs text-ink-faint">{caption}</p> : null}
+          {caption ? <p className="mt-1 text-xs text-ink-muted">{caption}</p> : null}
         </div>
         <div className="flex flex-wrap items-center gap-3">
           {legend?.length ? (
@@ -90,7 +90,7 @@ function ChartFrame({
               ))}
             </ul>
           ) : null}
-          <div className="flex rounded-pill border border-line p-1">
+          <div className="flex rounded-pill border border-ink-line p-1">
             {(["chart", "table"] as const).map((mode) => (
               <button
                 key={mode}
@@ -98,7 +98,7 @@ function ChartFrame({
                 onClick={() => setView(mode)}
                 aria-pressed={view === mode}
                 className={`h-11 rounded-pill px-4 text-xs capitalize transition sm:h-8 sm:px-3 ${
-                  view === mode ? "bg-surface-hi text-ink" : "text-ink-faint hover:text-ink"
+                  view === mode ? "bg-cream-deep text-ink" : "text-ink-muted hover:text-ink"
                 }`}
               >
                 {mode}
@@ -120,7 +120,7 @@ function ChartFrame({
 function YearlyTable({ rows, code }: { rows: YearlyRow[]; code: CurrencyCode }) {
   return (
     <table className="w-full text-xs">
-      <thead className="sticky top-0 bg-surface-hi text-left text-ink-faint">
+      <thead className="sticky top-0 bg-cream-deep text-left text-ink-muted">
         <tr>
           <th scope="col" className="py-1.5 pr-3 font-medium">Year</th>
           <th scope="col" className="py-1.5 pr-3 text-right font-medium">Principal</th>
@@ -130,7 +130,7 @@ function YearlyTable({ rows, code }: { rows: YearlyRow[]; code: CurrencyCode }) 
       </thead>
       <tbody className="figure text-ink-muted">
         {rows.map((row) => (
-          <tr key={row.year} className="border-t border-line-soft">
+          <tr key={row.year} className="border-t border-ink-line">
             <td className="py-1.5 pr-3">{row.year}</td>
             <td className="py-1.5 pr-3 text-right">{formatCurrency(row.principal, code)}</td>
             <td className="py-1.5 pr-3 text-right">{formatCurrency(row.interest, code)}</td>
@@ -304,10 +304,10 @@ export function CostBreakdown({
   const safeTotal = total > 0 ? total : 1;
 
   return (
-    <figure className="panel p-6">
+    <figure className="card p-6">
       <figcaption className="mb-3">
         <h3 className="text-base font-medium text-ink">{title}</h3>
-        {caption ? <p className="mt-1 text-xs text-ink-faint">{caption}</p> : null}
+        {caption ? <p className="mt-1 text-xs text-ink-muted">{caption}</p> : null}
       </figcaption>
 
       <div className="flex h-4 w-full gap-1 overflow-hidden rounded-pill" role="presentation">
@@ -335,14 +335,14 @@ export function CostBreakdown({
             <span className="figure ml-auto text-ink">
               {formatCurrency(slice.value, code)}
             </span>
-            <span className="figure w-12 text-right text-xs text-ink-ghost">
+            <span className="figure w-12 text-right text-xs text-ink-muted">
               {formatNumber((slice.value / safeTotal) * 100, 0)}%
             </span>
           </li>
         ))}
       </ul>
 
-      <div className="mt-5 flex items-center gap-2 border-t border-line pt-4 text-sm">
+      <div className="mt-5 flex items-center gap-2 border-t border-ink-line pt-4 text-sm">
         <span className="font-medium text-ink-muted">Total</span>
         <span className="figure ml-auto text-ink">
           {formatCurrency(total, code)}

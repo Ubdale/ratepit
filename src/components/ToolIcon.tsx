@@ -10,9 +10,9 @@ import type { SvgIconComponent } from "@mui/icons-material";
 import { toolAccent } from "@/lib/tools";
 
 /**
- * Each tool gets its own icon and accent so the cards read as six distinct
- * things rather than six copies of the same box. Accents are drawn from the
- * chart palette, which is already validated for contrast on this surface.
+ * Each tool owns an icon on a solid colour block, so the six cards read as six
+ * distinct things rather than six copies of the same box. White glyph on a
+ * saturated block clears contrast on every accent in the set.
  */
 const ICONS: Record<string, SvgIconComponent> = {
   "/loan-emi-calculator": PaymentsOutlinedIcon,
@@ -40,13 +40,13 @@ export function ToolIcon({
     <span
       className={`inline-flex items-center justify-center rounded-xl ${className}`}
       style={{
-        width: size * 2,
-        height: size * 2,
-        background: `linear-gradient(140deg, ${accent}26, ${accent}0A)`,
-        border: `1px solid ${accent}38`,
+        width: size * 2.2,
+        height: size * 2.2,
+        background: accent,
+        borderRadius: size * 0.75,
       }}
     >
-      <Icon sx={{ fontSize: size, color: accent }} aria-hidden />
+      <Icon sx={{ fontSize: size * 1.1, color: "#FFFFFF" }} aria-hidden />
     </span>
   );
 }

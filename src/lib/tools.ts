@@ -8,7 +8,7 @@ export interface Tool {
   live: boolean;
   /** Whether this tool has per-region sub-routes. */
   regional: boolean;
-  /** Per-tool accent, drawn from the validated chart palette. */
+  /** Per-tool accent block colour. White glyphs sit on these. */
   accent: string;
 }
 
@@ -21,7 +21,7 @@ export const TOOLS: Tool[] = [
       "Work out the monthly instalment, total interest and full amortisation schedule for any personal, business or education loan.",
     live: true,
     regional: true,
-    accent: "#199e70",
+    accent: "#00C08B",
   },
   {
     name: "Mortgage Calculator",
@@ -31,7 +31,7 @@ export const TOOLS: Tool[] = [
       "Full monthly housing cost including principal, interest, property tax, insurance and PMI, with live US rate suggestions.",
     live: true,
     regional: true,
-    accent: "#3987e5",
+    accent: "#2E9BFF",
   },
   {
     name: "Credit Card Payoff Calculator",
@@ -41,7 +41,7 @@ export const TOOLS: Tool[] = [
       "See exactly when your balance clears, what it costs in interest, and how much paying more each month saves.",
     live: true,
     regional: false,
-    accent: "#d95926",
+    accent: "#FF5C4D",
   },
   {
     name: "Car Loan Calculator",
@@ -51,7 +51,7 @@ export const TOOLS: Tool[] = [
       "Monthly payment with trade-in, negative equity, sales tax, fees and balloon/PCP finance built in.",
     live: true,
     regional: false,
-    accent: "#c98500",
+    accent: "#FFA33D",
   },
   {
     name: "Loan Eligibility Calculator",
@@ -61,7 +61,7 @@ export const TOOLS: Tool[] = [
       "Work backwards from your income and existing debts to the loan a lender would actually allow.",
     live: true,
     regional: false,
-    accent: "#9085e9",
+    accent: "#6D4AFF",
   },
   {
     name: "Insurance Premium Estimator",
@@ -71,7 +71,7 @@ export const TOOLS: Tool[] = [
       "A modelled range for term life, health and motor cover, with every rating factor shown.",
     live: true,
     regional: false,
-    accent: "#d55181",
+    accent: "#FF5FA2",
   },
 ];
 
@@ -80,5 +80,5 @@ export const LIVE_TOOLS = TOOLS.filter((t) => t.live);
 const ACCENTS = new Map(TOOLS.map((t) => [t.path, t.accent]));
 
 export function toolAccent(path: string): string {
-  return ACCENTS.get(path) ?? "#D6F25B";
+  return ACCENTS.get(path) ?? "#6D4AFF";
 }

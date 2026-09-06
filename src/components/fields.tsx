@@ -81,7 +81,7 @@ export function SliderField({
         onChange={(_, v) => onChange(Array.isArray(v) ? v[0] : v)}
       />
 
-      {hint ? <p className="-mt-1 text-xs text-ink-faint">{hint}</p> : null}
+      {hint ? <p className="-mt-1 text-xs text-ink-muted">{hint}</p> : null}
     </div>
   );
 }
@@ -141,7 +141,7 @@ export function ToggleField({
 }) {
   const id = useId();
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-line bg-canvas-raised/60 p-4">
+    <div className="flex items-center gap-3 rounded-xl border border-ink-line bg-cream p-4">
       <Switch
         id={id}
         checked={checked}
@@ -152,7 +152,7 @@ export function ToggleField({
         <label htmlFor={id} className="cursor-pointer text-sm font-medium text-ink">
           {label}
         </label>
-        {hint ? <p className="mt-1 text-xs text-ink-faint">{hint}</p> : null}
+        {hint ? <p className="mt-1 text-xs text-ink-muted">{hint}</p> : null}
       </div>
     </div>
   );

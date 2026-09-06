@@ -7,38 +7,44 @@ user's stored anywhere.
 
 ## Stack
 
-Next.js 14 (App Router) · TypeScript · Tailwind CSS · MUI · Recharts · Motion · dark by default.
+Next.js 14 (App Router) · TypeScript · Tailwind CSS · MUI · Recharts · Motion.
 
 ### Design system
 
-"Editorial ledger": a warm-tinted near-black canvas with warm off-white text (not cold
-slate), **citron** as the single brand accent used about once per screen, and **coral**
-reserved for live/estimated-data notices. Three type roles — Instrument Serif for display,
-Inter for reading, JetBrains Mono for every figure. Tokens live in `tailwind.config.ts`;
-component primitives (`.panel`, `.btn`, `.chip`, `.eyebrow`, `.figure`) in
-`src/app/globals.css`.
+**"Bright fintech": a light, high-colour system.** A warm cream canvas (`#FFF8EF`) carries
+the page, cards are white with 2px ink borders, and each tool owns a saturated colour
+block. Energy comes from colour and scale, not decoration. Display type is a chunky
+grotesque (Bricolage), body is Inter, and every figure is JetBrains Mono.
 
-**MUI supplies the controls** (slider, select, switch, toggle group, accordion, tooltip),
-themed in `src/theme.ts` to the Ratepit palette rather than stock Material. Tailwind still
-owns layout. Two things to know before changing that setup:
-
-- The emotion cache runs **without** `enableCssLayer`. Tailwind v3 emits its preflight
-  unlayered, and an unlayered rule beats any layered one regardless of specificity — with
-  the layer on, preflight's `box-sizing: border-box` silently overrode MUI's box metrics
-  and size overrides in the theme were dropped.
-- A plain function exported from a `"use client"` module cannot be *called* by a server
-  component. Shared data like `toolAccent` lives in `src/lib/tools.ts` for that reason.
+Tokens live in `tailwind.config.ts`; component primitives (`.card`, `.btn`, `.chip`,
+`.eyebrow`, `.figure`) in `src/app/globals.css`. MUI supplies the controls, themed in
+`src/theme.ts` to the same palette.
 
 Rules the codebase holds itself to:
 
 - Spacing on the 4/8 scale; page gutter `px-6`; content `max-w-6xl`.
-- A sparse type scale — no sizes between the defined steps.
-- Mobile-first, and every page must survive a 360px viewport with no horizontal scroll.
-- Interactive controls are at least 44px tall (sliders included — the visible track is a
-  hairline, the hit area is not).
+- A sparse type scale - no sizes between the defined steps.
+- Mobile-first; every page must survive a 360px viewport with no horizontal scroll.
+- Interactive controls are at least 44px tall.
+- **Every text run clears WCAG AA** (4.5:1, or 3:1 for large text) against its actual
+  background. The muted ink tiers are set from measured ratios, not eyeballed:
+  `ink-muted #5F554D` is 6.9:1 on cream, `ink-faint #766B61` is 4.9:1. On the violet
+  headline block, hierarchy comes from size and weight rather than opacity - white at
+  90% only reaches 4.5:1, which small text fails.
+- Big figures scale with `clamp()`, because a fixed 4.5rem mono number cannot fit a long
+  INR amount at 360px.
 - Motion enters once on scroll, animates opacity/transform only, and branches on
-  `useReducedMotion()`. **Reveals never ship `opacity: 0` in the server HTML** — see
+  `useReducedMotion()`. **Reveals never ship `opacity: 0` in the server HTML** - see
   `src/components/motion.tsx`; content stays visible if JavaScript fails.
+
+Two MUI integration traps worth knowing before changing that setup:
+
+- The emotion cache runs **without** `enableCssLayer`. Tailwind v3 emits its preflight
+  unlayered, and an unlayered rule beats any layered one regardless of specificity - with
+  the layer on, preflight's `box-sizing: border-box` silently overrode MUI's box metrics
+  and size overrides in the theme were dropped.
+- A plain function exported from a `"use client"` module cannot be *called* by a server
+  component. Shared data like `toolAccent` lives in `src/lib/tools.ts` for that reason.
 
 ## Getting started
 
